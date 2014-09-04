@@ -24,6 +24,7 @@
     ARTS&SCI 1D06, ISCI 1A24); and (co-requisite) linear algebra
     (credit or registration in one of MATH 1B03, 1D03, 1H03, 1HH3; or
     one of MATH 1ZC3, 1ZZ5. ).
+- [Course website:](https://github.com/stevencarlislewalker/3mb3) 
 - Computer software and hardware: we will use the open-source
     [R language](http://www.r-project.org) throughout the course. In
     particular, we will use the RStudio development environment, which
@@ -59,15 +60,15 @@
     5. 20%, final exam
 - Assignments: there will be four homework assignments to hand in for
   marks (5% each).  The due dates for these assignments are on the
-  [lecture schedule](https://github.com/stevencarlislewalker/3mb3/blob/master/schedule/schedule.md). Assignments
+  [lecture schedule](https://github.com/stevencarlislewalker/3mb3/tree/master/schedule). Assignments
   are to be submitted by email to
   [David](mailto:david.champredon@gmail.com) **before lecture** on the
   day they are due.  Each assignment is associated with a particular
   lab sessions (see schedule).  All assignments are to be formatted
   using [R markdown](http://rmarkdown.rstudio.com/), which will be
   discussed in the first lab.  An example of a completed homework
-  assignment in acceptable format is given under the `HomeworkExample`
-  directory of the course material.
+  assignment in acceptable format is given under the [HomeworkExample](https://github.com/stevencarlislewalker/3mb3/tree/master/HomeworkExample)
+  directory on the course website.
 - **Course objective:** To learn to apply mathematical tools to solve
     open-ended, real-world problems, to understand the benefits and
     limitations of mathematical modeling, and to critically assess the
