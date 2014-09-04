@@ -258,9 +258,8 @@ Re((L1-L0)/delta)
 @ 
 
 
-Download the data file \code{horn.txt} from Avenue (under `Content ->
-Data`).
-
+Download the data file \code{horn.txt} from the website (should
+already be done if you have downloaded the entire repository).
 <<eval=FALSE>>=
 f <- file.choose()  ## on MacOS or Windows this should open a dialog box
 @ 
