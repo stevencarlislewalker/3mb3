@@ -1,0 +1,102 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{Univariate nonlinear discrete-time models}
+\author{\copyright\ Ben Bolker (modified by Steve Walker): \today}
+\date{}
+
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+\section*{Logistic model}
+
+Impose bounds on an otherwise ridiculous growth process. Begin with
+the geometric difference equation, $N(t+1) - N(t) = RN(t)$. Set $R$
+equal to a decreasing linear function of $N(t)$ with $x$-intercept,
+$N_\mathrm{max}$, and $y$-intercept $R_\mathrm{max}$. This yields the
+logistic difference equation, $N(t+1)-N(t) =
+R_\mathrm{max}N(1-N(t)/N_\mathrm{max})$; can set $N_\mathrm{max}=1$
+(\emph{non-dimensionalization}). Fixed points: $N(t+1) - N(t) = 0 =
+RN{*}(1-N{*}/N_\mathrm{max})$ has two solutions, $N{*} = 0$ and $N{*}
+= K$.
+
+\subsection*{Stability}
+
+The geometric recurrsion, $N(t+1) = f(N(t)) = RN(t)$, is stable at the
+fixed point $N{*} = 0$, whenever $|R| < 1$. For general scalar
+function, $f$, and fixed point $N{*}$, this criterion becomes
+$|f'(N*)| < 1$, where $f'(N)$ is the first derivative of $f$ with
+respect to $N$. Note that this is a true generalization because $f'(N)
+= R$ for the geometric model.
+
+The derivative of the function defining the logistic recurrsion, $f(N)
+= N + R_\mathrm{max}N(1-N/N_\mathrm{max})$, is $f'(N) = $
+
+\begin{center}
+
+<<include=FALSE>>=
+opts_chunk$set(fig.height=3,fig.width=3)
+@
+
+\setkeys{Gin}{width=3in}
+<<echo=FALSE>>=
+source("../../R/cobweb.R")
+par(mfrow=c(2,2))
+par(mar=c(2,4,1,1),las=1,mgp=c(2.5,1,0))
+par(cex=0.5)
+cobweb(1.1*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.5,slty=1,slwd=0.5)
+cobweb(2.5*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.5,slty=1,slwd=0.5)
+cobweb(3.1*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.3,N=50,slty=1,slwd=0.5)
+cobweb(3.9*x*(1-x),xlim=c(0,1),ylim=c(0,1),start=0.3,slty=1,slwd=0.5)
+@ 
+\end{center}
+
+\section*{Alternative parameterizations}
+
+An ecologist or other normal person might choose to
+parameterize the discrete logistic model as
+above.  A mathematician would choose
+$x(t+1)= Rx(1-x)$. The mathematician has chosen
+$R=r/K \to K=1-1/R$. Mathematically equivalent
+parameterizations often have quite different
+meanings (or statistical properties), as well
+as cultural connotations. Get used to it.
+
+\section*{More nonlinear models}
+Other 1-D discrete nonlinear models: \emph{Ricker} model
+($N=rNe^{-bN}$); population genetics; approximations of
+continuous models.  Epidemic models (SI) (equivalent
+to discrete logistic).
+
+\begin{equation}
+  \begin{split}
+S(t+1) = & m(N-S) - bSI + gI \\
+       = & m(N-S) - bS(N-S) + g(N-S) \\
+       = & m(1-S) - bS(1-S) + g(1-S) \\
+       = & mI - bI(1-I) + gI \\
+       = & (m+g-b)I + bI^2 \\
+   \end{split}
+\end{equation}
+\begin{equation}
+  \begin{split}
+N(t+1) = & N + rN(1-N/K)  \\
+           = & (1+r)N - (r/K) N^2 \\
+           = & (1+r)N-rN^2 \\
+  \end{split}
+\end{equation}
+
+Graphical approaches, continued: \emph{Allee effects}.
+Bistability, multiple stable states.
+
+\end{multicols}
+\end{document}
