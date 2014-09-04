@@ -2,10 +2,6 @@
 \date{\today}
 \author{Steve Walker}}
 
-%% TODO: hint about range change in log graph
-%% mfcol(,)
-%% ?
-
 \begin{document}
 
 \maketitle

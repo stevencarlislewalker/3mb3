@@ -1,0 +1,111 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{Univariate linear (and affine) discrete-time deterministic models}
+\author{\copyright\ Ben Bolker (modified by Steve Walker): \today}
+\date{}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+  Basic model: $N(t+1) = f(N(t))$, where $f$ is a linear function and
+  $t$ is on the integers. Typically, state variable is
+  continuous.
+  \qq{What are the units of time?}
+  \qq{When does discrete time make sense?}
+
+  We will use this extremely simple model to illustrate the general
+  approach to dynamical modelling, which is,
+  \begin{enumerate}
+  \item solve for equilibria
+  \item evaluate stability of equilibria
+  \item possibly evaluate for small $N$ (near system boundaries)
+  \item solve for time-dependent solution or simulate various special
+    cases through time
+  \end{enumerate}
+  
+\section*{Geometric growth (decay)}
+Simplest possible discrete-time deterministic dynamical model.
+$f(N)=RN$ (sometimes stated as $f(N)=(1+r)N$).  Solve recursion
+analytically (\qq{can you do this?}).  Now we know everything
+about the dynamics.  Suppose $N(0)>0$, $R>0$ (note: the R language
+indexes vectors starting from 1).  \qq{What happens if $N(0)<0$ ? model
+of debt?}
+
+\qq{What happens if $R<0$?}
+
+(Even this ridiculously simple rule --- %
+or generalizations of it --- is the basis of serious modeling in
+conservation biology.)
+
+If $R<1$, $N \to 0$ but $N=0$ only in the limit,
+unless it starts there.  A value of $N$ such that $f(N^*)=N^*$ is
+called an \emph{equilibrium} (or a \emph{fixed point}).
+
+\emph{Stability}: what happens for perturbations in the neighborhood
+of the fixed point?  Consider displacing the population away from
+$N^*$ by $\delta$, where $\delta \ll 1$; what happens? If $|R|<1$ then
+then $N$ will return to $N*$.
+
+$N=0$ is always an equilibrium, stable iff $|R|<1$.
+
+\section*{Affine models}
+
+Now suppose (as in the example in the book) we are adding or
+subtracting a fixed amount per time step: $N(t+1) = a + b N(t)$.  As
+before we can work out the recursion.
+% $N(t+2) = a + b (a + b N(t)) = a (1+b) + b^2 N(t)$ $N(t+3) = a +
+% b(a(1+b) + b^2 N(t)) = a (1 + b + b^2) + b^3 N(t)$
+
+Summing the series for $t$ steps gives $a(1-b^t)/(1-b) + b^t N$; the
+limit is $a/(1-b) + \lim_{t\to\infty} b^t N(0)$.  If $|b|>1$ this is a
+bit boring.  If $|b|<1$ we get a stable equilibrium at $a/(1-b)$.
+(For $b<0$ (``bucket model''): $a$ is the supply rate, $1/(1-b)$ is
+the average \emph{residence time}.)
+
+Useful component for larger models.  (Autoregressive model in time
+series analysis; sometimes used as the bottom level in food chain
+modeling.)
+
+\section*{Graphical approaches: cobwebbing}
+
+\begin{center}
+
+<<include=FALSE>>=
+opts_chunk$set(fig.height=3,fig.width=3)
+@
+
+ \setkeys{Gin}{width=3in}
+<<echo=FALSE>>=
+source("../../R/cobweb.R")
+par(mfrow=c(2,2))
+par(mar=c(2,4,1,1),las=1,mgp=c(2.5,1,0))
+par(cex=0.5)
+cobweb(0.75*x,start=20,N=10,ylim=c(0,15),from=0,to=20,xlab="",interact=FALSE)
+cobweb(1.25*x,start=1,N=10,ylim=c(0,10),xlab="",interact=FALSE)
+cobweb(10+0.75*x,start=2,N=10,xlab="",ylim=c(0,70),from=0,to=70,interact=FALSE)
+cobweb(10+0.75*x,start=70,ylim=c(0,70),from=0,to=70,add=TRUE,scol=2,interact=FALSE)
+abline(a=10,b=0.75) ## cheat
+cobweb(10-1.25*x,start=8.1,N=10,ylim=c(-20,40),from=-20,to=25,xlab="",interact=FALSE)
+cobweb(10-1.25*x,start=7.9,N=10,ylim=c(-20,40),from=-20,to=25,add=TRUE,scol=2,interact=FALSE)
+@ 
+\end{center}
+
+\section*{Multiple lags}
+What if $N(t+1)$ depends on previous time steps $N(t-1)$ etc. as well
+as $N(t)$?  Homogeneous linear equations: $\sum_{i=0}^m a_i N(t-i)=0$.
+Plug in $N(t)=C \lambda^t$.  Solve characteristic equation \ldots get
+a linear combination of geometric growth/decay, $\sum C_i
+\lambda_i^n$: largest \emph{eigenvalue} dominates long-term behavior.
+\end{multicols}
+
+\end{document}
