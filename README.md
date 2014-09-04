@@ -225,7 +225,4 @@ This outline will be linked from the course home page. However, it is
 your responsibility to check the course home page and syllabus regularly
 for further announcements, course handouts, assigned work and their due
 dates, information about test dates and locations when this information
-becomes available, downloadable course related material, etc. Recorded
-marks for tests and assignments will be posted on Avenue. You should
-check these once they become available and bring any discrepancies to
-the attention of the instructor or TA as soon as possible.
+becomes available, downloadable course related material, etc.
