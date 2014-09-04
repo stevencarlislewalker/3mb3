@@ -7,27 +7,27 @@
      3 Tues    9 Sep    linear univariate discrete deterministic                      
      4 Thurs   11 Sep   nonlinear univariate discrete deterministic                   MS pp.31-35
      5 Mon     15 Sep   nonlinear univariate discrete deterministic                   
-     6 Tues    16 Sep   nonlinear univariate discrete deterministic       lab 1 HW    
-     7 Thurs   18 Sep   linear multivariate discrete deterministic                    MS pp.28-30,101-121
+     6 Tues    16 Sep   nonlinear univariate discrete deterministic                   
+     7 Thurs   18 Sep   linear multivariate discrete deterministic        lab 1 HW    MS pp.28-30,101-121
      8 Mon     22 Sep   linear multivariate discrete deterministic                    
      9 Tues    23 Sep   nonlinear multivariate discrete deterministic                 MS pp.35-37
     10 Thurs   25 Sep   nonlinear multivariate discrete deterministic                 
-    11 Mon     29 Sep   nonlinear multivariate discrete deterministic     lab 2 HW    
+    11 Mon     29 Sep   nonlinear multivariate discrete deterministic                 
     12 Tues    30 Sep   linear univariate continuous deterministic                    MS pp.239-244,251-253
-    13 Thurs   2 Oct    nonlinear univariate continuous deterministic                 MS pp.244-245,266-283
-    14 Mon     6 Oct    nonlinear univariate continuous deterministic     lab 3 HW    
+    13 Thurs   2 Oct    nonlinear univariate continuous deterministic     lab 2 HW    MS pp.244-245,266-283
+    14 Mon     6 Oct    nonlinear univariate continuous deterministic                 
     15 Tues    7 Oct    review                                                        
     16 Thurs   9 Oct    in-class midterm                                              
     17 Mon     13 Oct   no class (thanksgiving)                                       
     18 Tues    14 Oct   linear multivariate continuous deterministic                  MS pp.258-266
     19 Thurs   16 Oct   nonlinear multivariate continuous deterministic               MS pp.283-305
-    20 Mon     20 Oct   linear univariate discrete stochastic             lab 4 HW    MS pp.47-81
-    21 Tues    21 Oct   nonlinear univariate discrete stochastic                      
-    22 Thurs   23 Oct   linear multivariate discrete stochastic           proposals   MS pp.122-132
+    20 Mon     20 Oct   linear univariate discrete stochastic                         MS pp.47-81
+    21 Tues    21 Oct   nonlinear univariate discrete stochastic          lab 3 HW    
+    22 Thurs   23 Oct   linear multivariate discrete stochastic           lab 4 HW    MS pp.122-132
     23 Mon     27 Oct   nonlinear multivariate discrete stochastic                    
     24 Tues    28 Oct   projects                                                      
     25 Thurs   30 Oct   no class: mid-term recess                                     
-    26 Mon     3 Nov    projects                                                      
+    26 Mon     3 Nov    projects                                          proposals   
     27 Tues    4 Nov    projects                                                      
     28 Thurs   6 Nov    projects                                                      
     29 Mon     10 Nov   projects                                                      
