@@ -1,5 +1,22 @@
 # Course outline:  MATH 3MB3 -- 2014
 
+## Our class
+
+### Computer language preferences:
+R - 9
+MATLAB - 16
+Excell - 5
+C - 1
+None - 6
+
+### Majors:
+math - 19
+Bio - 6
+Econ - 2
+Phys - 2
+Stats - 4
+
+
 ## The basics
 
 - Instructor: Dr. Steve Walker. Contact me by (preferred methods)
