@@ -6,8 +6,9 @@
     e-mailing
     [scwalker@math.mcmaster.ca](mailto:scwalker@math.mcmaster.ca) or
     visiting 412 Hamilton Hall. My **office hours** for this semester
-    are **UPDATE AFTER IN-CLASS POLL**. Meetings during office hours
-    are preferred but I can also meet at other times by appointment.
+    are mon 1:30-2:20, tues 3:30-4:20, th 9:30-10:20. Meetings during
+    office hours are preferred but I can also meet at other times by
+    appointment.
 -   Teaching assistant: David Champredon
     ([david.champredon@gmail.com](mailto:david.champredon@gmail.com))
     will be running the labs.
