@@ -1,5 +1,4 @@
-Lecture schedule {#lecture-schedule .unnumbered}
-----------------
+**Lecture schedule**
 
        Day     Date     Topics                                            Due         Readings
   ---- ------- -------- ------------------------------------------------- ----------- -----------------------
@@ -43,8 +42,7 @@ Lecture schedule {#lecture-schedule .unnumbered}
     38 Mon     1 Dec    projects                                                      
     39 Tues    2 Dec    projects                                          writeups    
 
-Lab schedule {#lab-schedule .unnumbered}
-------------
+**Lab schedule**
 
        Date     Topics
   ---- -------- --------------------------------------------
