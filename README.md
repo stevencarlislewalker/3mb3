@@ -34,7 +34,8 @@
   periodically re-download**.  You can also browse through the files
   via the links above.  Note however that you may be frustrated by how
   `github` handles `pdf` and `html` files.  This is why its best to
-  download the entire repository.
+  download the entire repository.  Tip:  `View Raw` and `Raw` buttons
+  can be your friend with `pdf` files.
 - Computer software and hardware: we will use the open-source
     [R language](http://www.r-project.org) throughout the course. In
     particular, we will use the RStudio development environment, which
@@ -74,11 +75,13 @@
   [lecture schedule](https://github.com/stevencarlislewalker/3mb3/tree/master/schedule). Assignments
   are to be submitted by email to
   [David](mailto:david.champredon@gmail.com) **before lecture** on the
-  day they are due.  Each assignment is associated with a particular
-  lab sessions (see schedule).  All assignments are to be formatted
-  using [R markdown](http://rmarkdown.rstudio.com/), which will be
-  discussed in the first lab.  An example of a completed homework
-  assignment in acceptable format is given under the [HomeworkExample](https://github.com/stevencarlislewalker/3mb3/tree/master/HomeworkExample)
+  day they are due, **with the subject `3MB3 homework`**.  Each
+  assignment is associated with a particular lab sessions (see
+  schedule).  All assignments are to be formatted using
+  [R markdown](http://rmarkdown.rstudio.com/), which will be discussed
+  in the first lab.  An example of a completed homework assignment in
+  acceptable format is given under the
+  [HomeworkExample](https://github.com/stevencarlislewalker/3mb3/tree/master/HomeworkExample)
   directory on the course website.
 - Participation marks: although you may have experienced otherwise in
   other courses, these marks will not be arbitrary/subjective.
