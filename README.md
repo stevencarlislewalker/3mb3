@@ -65,8 +65,9 @@
   day they are due.  Each assignment is associated with a particular
   lab sessions (see schedule).  All assignments are to be formatted
   using [R markdown](http://rmarkdown.rstudio.com/), which will be
-  discussed in the first lab.  [Here]() is an example of a completed
-  homework assignment.
+  discussed in the first lab.  An example of a completed homework
+  assignment in acceptable format is given under the `HomeworkExample`
+  directory of the course material.
 - **Course objective:** To learn to apply mathematical tools to solve
     open-ended, real-world problems, to understand the benefits and
     limitations of mathematical modeling, and to critically assess the
