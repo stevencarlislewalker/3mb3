@@ -87,7 +87,7 @@
   other courses, these marks will not be arbitrary/subjective.
   Occassionally throughout the semester, you will be asked to write
   either David or Steve an email (a few sentences to a paragraph) on
-  a particular topic.  The purpose of these emails is for David and I
+  a particular topic (**subject `3MB3 participation`**).  The purpose of these emails is for David and I
   to be able to assess your depth of understanding of non-technical
   material.  This will allow us to give you feedback and will
   hopefully make the preparation of your final report at the end of
