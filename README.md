@@ -77,6 +77,19 @@
   discussed in the first lab.  An example of a completed homework
   assignment in acceptable format is given under the [HomeworkExample](https://github.com/stevencarlislewalker/3mb3/tree/master/HomeworkExample)
   directory on the course website.
+- Participation marks: although you may have experienced otherwise in
+  other courses, these marks will not be arbitrary/subjective.
+  Occassionally throughout the semester, you will be asked to write
+  either David or Steve an email (a few sentences to a paragraph) on
+  a particular topic.  The purpose of these emails is for David and I
+  to be able to assess your depth of understanding of non-technical
+  material.  This will allow us to give you feedback and will
+  hopefully make the preparation of your final report at the end of
+  the term less stressful.  If you do not come to lecture you will not
+  hear about these participatory emails.  If you do not send these
+  emails you will receive a low participation mark.  Other ways to
+  enhance your participation mark is to engage with in-class exercises
+  and come to office hours.
 - **Course objective:** To learn to apply mathematical tools to solve
     open-ended, real-world problems, to understand the benefits and
     limitations of mathematical modeling, and to critically assess the
@@ -158,7 +171,8 @@
 4.  You will be required to bring your official McMaster University
     photo identification card to the final examination.
      
-5.  Students' grades will be returned by email.
+5.  Students' grades will be returned by email, **using the official
+    email I receive in the class list**.
 
 ### Academic Integrity
 
