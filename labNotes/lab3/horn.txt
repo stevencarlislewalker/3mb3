@@ -1,0 +1,12 @@
+"BTA" "GB" "SF" "BG" "SG" "WO" "OK" "HI" "TU" "RM" "BE"
+"Big-toothed aspen" 3 5 9 6 6 0 2 4 2 60 3
+"Gray birch" 0 0 47 12 8 2 8 0 3 17 3
+"Sassafras" 3 1 10 3 6 3 10 12 0 37 15
+"Blackgum" 1 1 3 20 9 1 7 6 10 25 17
+"Sweetgum" 0 0 16 0 31 0 7 7 5 27 7
+"White oak" 0 0 6 7 4 10 7 3 14 32 17
+"Red oaks" 0 0 2 11 7 6 8 8 8 33 17
+"Hickories" 0 0 1 3 1 3 13 4 9 49 17
+"Tulip tree" 0 0 2 4 4 0 11 7 9 29 34
+"Red maple" 0 0 13 10 9 2 8 19 3 13 23
+"Beech" 0 0 0 2 1 1 1 1 8 6 80

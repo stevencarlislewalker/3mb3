@@ -1,0 +1,192 @@
+\title{Using \R\ to analyze continuous models (lab 4)}
+\date{\today}
+\author{Steve Walker}}
+
+%% TODO: hint about range change in log graph
+%% mfcol(,)
+%% ?
+
+\begin{document}
+
+\maketitle
+
+\includegraphics[width=2.64cm,height=0.93cm]{../icons/cc-attrib-nc.png}
+
+\begin{minipage}[b]{3in}
+{\small Licensed under the Creative Commons 
+  attribution-noncommercial license
+(\url{http://creativecommons.org/licenses/by-nc/3.0/}).
+Please share \& remix noncommercially,
+mentioning its origin.}
+\end{minipage}
+
+Version: \Sexpr{Sys.time()}
+  
+\addtocounter{section}{-1}
+
+\section{Solving linear models}
+
+We start simple, with the following bivariate linear model,
+\begin{equation}
+  \label{eq:2}
+  \frac{d\bm x}{dt} = \bm A \bm x
+\end{equation}
+where the coefficient matrix, $\bm A$, is,
+<<simulateA>>=
+set.seed(2)
+A <- matrix(rnorm(4), 2, 2, byrow = TRUE)
+A
+@ %
+\noindent We see that this model has a stable fixed point at the
+origin because all eigenvalues are less than zero,
+<<eigenA>>=
+eigen(A)$values
+@ %
+\noindent However, how is this equilibrium approached?  Let us find a
+time-dependent solution.  We know that the solution is
+\begin{equation}
+  \label{eq:3}
+  \bm x(t) = \phi_1 e^{t\lambda_1} \bm v_1 + \phi_2 e^{t\lambda_2} \bm v_2
+\end{equation}
+where the $\lambda$'s and $\bm v$'s are eigenvalues and eigenvectors,
+and the $\phi$'s are components of the vector,
+\begin{equation}
+  \label{eq:4}
+  \bm \phi = \bm V^{-1}\bm x(0)
+\end{equation}
+where $\bm V$ is the matrix with eigenvectors for columns.  Therefore,
+we can find a solution by,
+<<solveA, fig.width=4, fig.height=4>>=
+set.seed(2)
+x0 <- runif(2, -2, 2)
+eigA <- eigen(A)
+V <- eigA$vectors
+lambda <- eigA$values
+phi <- solve(V) %*% x0
+tt <- seq(0, 10, length = 1000)
+x <- phi[1] * outer(exp(tt*lambda[1]), V[,1]) + 
+     phi[2] * outer(exp(tt*lambda[2]), V[,2])
+plot(x, type = "l",
+     xlab = "state variable I",
+     ylab = "state variable II")
+abline(h = 0, v = 0)
+@ %
+
+\section{Vector field plots}
+
+Another way to get more insight into the model that is not dependent
+on specific initial conditions is to construct a vector field plot,
+which represents the magnitude and direction of the time derivative at
+various points in the state space.  To construct a vector field plot
+we use the code{plotrix} package,
+<<eval=FALSE>>=
+install.package("plotrix")
+library(plotrix)
+@ %
+<<vectorField, fig.width=3, fig.height=3>>=
+library(plotrix)
+xx <- seq(-2, 2, length = 10)
+X <- as.matrix(expand.grid(xx, xx))
+Ax <- X %*% t(A)
+par(mar = c(3, 3, 1, 1))
+plot(c(-2, 2), c(-2, 2), type = "n", 
+     las = 1)
+abline(h = 0, v = 0, lwd = 0.5)
+vectorField(Ax[,1], Ax[,2], 
+            X[,1], X[,2])
+eigA <- eigen(A)
+eVec <- eigA$vectors
+eVecInv <- solve(eVec)
+eVal <- eigA$values
+eigSlopes <- eVec[2,]/eVec[1,]
+abline(a = 0, 
+       b = eigSlopes[1], 
+       col = "red")
+abline(a = 0, 
+       b = eigSlopes[2], 
+       col = "blue")
+lines(x, col = "green", lwd = 3)
+@ %
+\noindent We have also plotted the two eigenvectors (in red and blue)
+and the trajectory (in green).  Note that the vectors along the
+eigenvectors point to the fixed point, indicating stability.
+
+\textbf{Exercise\exnumber}: Choose different values for \code{A} and
+explore the range of behaviour that is possible with bivariate linear
+models.  Choose values untill you have found (1) models with cycles,
+(2) models with only one linearly independent eigenvector, and (3)
+models with one positive and one negative eigenvalue.
+
+\section{Numerical solutions to differential equations}
+
+\R\ can also be used to solve differential equations.  You are
+required to be able to use \R\ for this purpose, but not until we
+cover them in lectures.  We will be using the \code{deSolve} add-on
+package for \R, which can be obtained by,
+<<eval=FALSE>>=
+install.package("deSolve")
+library(deSolve)
+@ %
+<<echo=FALSE>>=
+library(deSolve)
+@ %
+
+To illustrate \code{deSolve} we will use the logistic model,
+\begin{equation}
+  \label{eq:1}
+  \frac{dN}{dt} = rN\left(1-\frac{N}{K}\right)
+\end{equation}
+The first task is to construct a function that computes the gradient
+(i.e. the time-derivative of the state variable),
+<<tidy=FALSE>>=
+gradfun <- function(t, N, params) {  
+    with(c(as.list(N), as.list(params)),
+         list(N = r * N * (1 - N/K)))
+}
+@ %
+\noindent This function takes three arguments, \code{t}, which accepts
+a time point at which to evaluate the differential equation, \code{N},
+which accepts the state variable (e.g. $N$), and \code{params}, which
+accepts the model parameters (e.g. $r$ and $K$).  The arguments must
+be in this order, but the names do not matter.  Note also that we have
+used the \code{with} function, which at this point might seem a bit
+magical, but allows us to refer to the state variables and parameters
+by name.  The output of this function is an \R\ list with the gradient
+as the first argument.  The \code{NULL} element must be present as a
+placeholder.
+
+To solve this function, we use the \code{lsoda} function,
+<<tidy=FALSE>>=
+desol <- lsoda(y = c(N = 0.1), 
+               times = seq(0, 10, by = 0.1),
+               func = gradfun,
+               parms = c(r = 1, K = 5))
+@  %
+which takes the initial values, \code{y}, the times at which to
+evaluate, \code{times}, the gradient function, \code{func}, and
+numerical values for the parameters, \code{parms}.  Let's look at the
+solutions for the first few time points,
+<<>>=
+desol <- as.data.frame(desol)
+head(desol)
+@ %
+We may plot the results using \code{with} as well,
+<<tidy=FALSE, fig.height=3, fig.width=3>>=
+par(mar = c(4, 4, 1, 1))
+with(desol, plot(time, N,
+                 las = 1,
+                 type = "l"))
+@  %
+
+The \code{deSolve} package may also be used to solve multivariate
+differential equations.  Please consult the \code{?lsoda} help file
+for examples.
+
+\textbf{Exercise\exnumber *}: Use the techniques you have learnt to
+complete Project 5.9 on pp.320-1 in MS.  For part b, contruct a vector
+field plot instead of a phase plane analysis.
+
+\bibliography{lab1.bib}
+\bibliographystyle{plain}
+
+\end{document}

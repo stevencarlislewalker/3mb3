@@ -1,0 +1,324 @@
+\title{Matrix models in \R\ (lab 3)}
+\author{\copyright 2010 Ben Bolker (modified by Steve Walker)}
+
+\begin{document}
+
+\maketitle
+
+\includegraphics[width=2.64cm,height=0.93cm]{../icons/cc-attrib-nc.png}
+
+\begin{minipage}[b]{3in}
+{\small Licensed under the Creative Commons 
+  attribution-noncommercial license
+(\url{http://creativecommons.org/licenses/by-nc/3.0/}).
+Please share \& remix noncommercially,
+mentioning its origin.}
+\end{minipage}
+
+
+<<echo=FALSE>>=
+options(continue="+ ", prompt="> ", width=60)
+@ 
+
+<<include=FALSE>>=
+library(knitr)
+opts_chunk$set(
+    tidy = FALSE,
+    prompt = TRUE
+)
+@
+
+
+\section{Basic matrix manipulation}
+
+R uses \code{matrix} to enter matrices:
+
+<<>>=
+(X <- matrix(c(0, 1, 0, 0.1, 0, 0.4, 1.5, 0, 0.2), nrow = 3))
+@ 
+
+You need to specify \emph{either} \code{nrow} or \code{ncol};
+R will figure out the other dimension of the matrix.  You must
+encapsulate your values within \code{c()}, or you will (if you're
+lucky) get an error or (if not) get something other than what you expected.
+Also notice that, by default, R specifies matrices \emph{by column}: if you
+want you can explicitly specify \code{byrow=TRUE} (doing this,
+and formatting your code so that the values for each row on are
+a separate line, is a good way to preserve your sanity when
+entering large matrices). For example:
+<<>>=
+X <- matrix(c(0, 0.1, 1.5,
+              1,   0, 0,
+              0,   0.4, 0.2),
+            byrow = TRUE,
+            nrow = 3)
+@ 
+
+You may be wondering if vectors in R 
+are row vectors or column vectors (if you don't know what those are,
+don't worry). The answer is ``both and neither''.
+Vectors are printed out as row vectors, but if you use a vector in 
+an operation that succeeds or fails depending on the vector's orientation, 
+R will assume that you want the operation to succeed and will proceed as 
+if the vector has the necessary orientation. For example, R will let
+you add a vector of length 5 to a $5 \times 1$ matrix or to a 
+$1 \times 5$ matrix, in either case yielding a matrix of the 
+same dimensions.
+
+\begin{table}[t]
+\begin{tabular}{p{125pt}p{290pt}}
+\hline
+\code{matrix(v,nrow=m,ncol=n,} & $m \times n$ matrix using the values in \code{v} \\
+\qquad \code{byrow=FALSE)} & \\
+\code{t(X)} & transpose (exchange rows and columns) of matrix \code{X} \\
+\code{dim(X)} & dimensions of matrix \code{X}. \code{dim(X)[1]}=\# rows, \code{dim(X)[2]}=\# columns \\
+\code{data.entry(A)} & call up a spreadsheet-like interface to edit the values in \code{A} \\
+\code{diag(v,n)} & diagonal $n \times n$ matrix with $v$ on diagonal, 0 elsewhere 
+(\code{v} is 1 by default, so \code{diag(n)} gives an $n \times n$ identity matrix)\\
+\code{cbind(a,b,c,...)} & combine compatible objects by attaching them along columns \\
+\code{rbind(a,b,c,...)} & combine compatible objects by attaching them along rows \\
+\code{as.matrix(x)} & convert an object of some other type to a matrix, if possible.  This is particularly handy for converting the results of \code{read.table}, which returns a data frame instead of a matrix \\
+\code{outer(v,w)} & ``outer product'' of vectors \code{v}, \code{w}: the matrix whose 
+$(i,j)$\textsuperscript{th}
+element is \code{v[i]*w[j]} \\
+\code{eigen(X)} & compute eigenvalues and eigenvectors of a matrix: the results is a list with the eigenvalues stored as \verb+$values+ and the eigenvectors as columns of the
+matrix \verb+$vectors+ (the eigenvectors are normalized so that their sum of squares is 1) \\
+\verb+X%*%Y+ & multiply matrices \code{X} and \code{Y} \\
+\verb+X%^%k+ & raise matrix \code{X} to the \code{k}th power (in the \code{expm} package --- you will need to install and load it first) \\
+\code{expm(X)} & exponentiate \code{X} (\code{expm} package) \\
+\code{solve(X)} & matrix inverse \\
+\code{Re(X)} & real part of a complex matrix (or vector) \\
+\code{Im(X)} & imaginary part of a complex matrix (or vector) \\
+\code{Mod(X)} & element-wise modulus of a complex matrix (or vector)  \\
+\hline
+\end{tabular}
+\caption{Some important functions for creating and working with matrices. Many
+of these have additional optional arguments; use the help system for full details.}
+\label{MatrixFunctions}
+\end{table}
+
+%Exercise 1*.  Is \code{X} irreducible?  Prove your answer.
+%Is it primitive?  How do you know?  (It may help to draw
+%a picture illustrating the loops.)
+
+<<eval=FALSE,echo=FALSE>>=
+all(X %*% X %*% X>0)
+@ 
+
+Exercise 1. Assume that \code{X} is a matrix for a discrete-time linear
+multivariate deterministic model in recurrsion form (i.e. $\mathbf n(t+1)
+= \mathbf X \mathbf n(t)$). Calculate $\mathbf n(1)$ given that, 
+\begin{equation*}
+\mathbf n(0) = \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}
+\end{equation*}
+Hint: matrix multiplication in \code{R} is done with the \code{\%*\%}
+operator (Table 1). Now calculate $\mathbf n(t+2)$.
+<<Exercise1Ans, eval=FALSE,echo=FALSE>>=
+n0 <- rep(1,3)
+X%*%n0
+@ 
+
+
+
+The conceptually simplest way to calculate the state at a given time
+step is -- as always -- to use a \code{for} loop, 
+<<>>=
+n0 <- rep(1, 3)
+n <- n0 # start the state at n0
+t <- 5 # target the fifth time-step
+for(i in 1:t) n <- X %*% n # update the state t times
+print(n) # print the state
+@ 
+Note that we deleted the old state each time we updated the
+recurrsion. If we want to save all of these intermediate values of the
+state, we need a matrix of states rather than just a vector. This is
+because our multivariate state requires one matrix dimension for time
+and one for its multiple variables. For example,
+<<>>=
+N <- matrix(0,t+1,3) # t+1 because we need room for the initial state
+N[1,] <- n0 # store the initial state
+for(i in 1 + (1:t)) N[i,] <- X %*% N[i-1,]
+print(N)
+@ 
+Note that the final row contains the same numbers in \code{n}.
+
+The explicit closed form solution of $\mathbf n(t+1) = \mathbf X
+\mathbf n(t)$ is $\mathbf n(t) = \mathbf S \mathbf D^t \mathbf S^{-1}
+\mathbf n(0)$, where $\mathbf S$ is a matrix whose columns are the
+eigenvectors of $\mathbf X$ and $\mathbf D$ is a diagonal matrix with
+the eigenvalues of $\mathbf X$ on the diagonal. In \code R, $\mathbf
+S$ can be obtained by,
+<<eigenvectors>>=
+(S <- eigen(X)$vectors)
+@ 
+Similarly, the diagonal of $\mathbf D$ is,
+<<eigenvalues>>=
+(d <- eigen(X)$values)
+@ 
+and to put these in a diagonal matrix to obtain $\mathbf D$,
+<<diagonal>>=
+(D <- diag(d,nrow=length(d)))
+@
+Note that there are complex numbers. Nevertheless the closed-form
+solution still works, even though we know that the state variable
+$\mathbf n$ can only take on real numbers. If the answers you get
+from the closed-form solution have imaginary parts, they will be
+exactly zero and therefore not relevant; you may want to make use of
+the \code{Re} function (Table 1), which extracts the real part.
+
+Exercise 2. Verfiy that the explicit time-dependent solution using
+eigenvectors and eigenvalues of $\mathbf X$ gives the correct value of
+$\mathbf n(5)$. Verify also by explicitly multiplying $\mathbf X$ by
+itself five times (i.e. by calculating $\mathbf{XXXXXn}(0)$).
+
+<<Exercise3Ans,echo=FALSE,eval=FALSE>>=
+Re(S %*% D^5 %*% solve(S) %*% n0)
+X %*% X %*% X %*% X %*% X %*% n0
+@ 
+
+There is something amazing about the first eigenvector. This first,
+dominiant, eigenvector is approximately a constant multiple of the
+state vector after the model has been run a large number of time
+steps,
+<<stableage>>=
+Re(S %*% D^100 %*% solve(S) %*% n0) # state after 100 steps
+Re(S[,1]) # first eigen vector
+@ 
+To see the proportionality more easily, we define a normalization
+function,
+<<normalize>>=
+normalize <- function(x) {
+  x/sum(x)
+}
+normalize(Re(S %*% D^100 %*% solve(S) %*% n0))
+normalize(Re(S[,1]))
+@ 
+
+Because this is a linear system it has a fixed point at
+$\{0,0,0\}$. The eigenvalues tell us about the stability of this
+point. In particular, if all of the eigenvalues have an absolute value
+(or modulus for complex eigenvalues) of less than one, then the fixed
+point at the origin is stable. For example, our example system is
+stable because,
+<<stability>>=
+all(Mod(d) < 1)
+@ 
+
+To plot the first 20 time steps of this model we modify the \code{for}
+loop above,
+<<plot>>=
+N <- matrix(0,20+1,3)
+N[1,] <- n0
+for(i in 2:21) N[i,] <- X %*% N[i-1,]
+plot(0:20, N[,1], ylim = range(N), type = "n")
+for(i in 1:3) lines(0:20, N[,i], lty = i)
+@ 
+
+Exercise 3. Modify this code to add (a) an x-axis label, `time-step',
+(b) y-axis label, `state', and (c) legend identifying the different
+line types used for the three different states.
+
+%Exercise 1. If \code{X} represents a demographic matrix,
+%what is the expected long-term growth rate of the population?
+%Is it growing or shrinking?  Copy \code{X} to a new matrix
+%\code{Y} and change \code{Y} in some way that leads to 
+%a growth rate that is just $<1$, if the original growth
+%rate was $>1$, or vice versa.
+
+<<eval=FALSE,echo=FALSE>>=
+eigen(X)$values[1]
+Y <- X
+Y[1,3] <- 1.8001
+eigen(Y)$values[1]
+@ 
+% maxima
+% (%i37) m : matrix([0,f1,f2],[s1,0,0],[0,s2,s3]);
+
+Exercise 4. Show that starting with initial values of either
+$\{1,1,1\}$ or $\{1,0,0\}$ gets you to the same state after 100 time
+steps (you can either use a \code{for} loop or the \verb+%^%+ operator
+from the \code{expm} package), and these states are the same as the
+first eigenvector.  Don't forget to normalize!
+
+<<echo=FALSE,eval=FALSE>>=
+library(expm)
+normalize(X%^%100 %*% c(1,1,1))
+normalize(X%^%100 %*% c(1,0,0))
+@
+
+
+
+<<echo=FALSE,eval=FALSE>>=
+L0 <- eigen(X)$values[1]
+Y <- X
+delta <- 1e-5
+Y[1,3] <- Y[1,3]+delta
+L1 <- eigen(Y)$values[1]
+Re((L1-L0)/delta)
+@ 
+
+
+Download the data file \code{horn.txt} from Avenue (under `Content ->
+Data`).
+
+<<eval=FALSE>>=
+f <- file.choose()  ## on MacOS or Windows this should open a dialog box
+@ 
+<<echo=FALSE>>=
+f <- "horn.txt"
+@ 
+<<>>=
+(X <- as.matrix(read.table("horn.txt")))
+@ 
+
+Notice that the row sums are all equal to 100 --- %
+these data are in percentages, we want the
+\emph{column sums} to be 1:
+<<>>=
+rowSums(X)
+X <- t(X)/100  ## transpose and divide by 100
+colSums(X)
+@ 
+
+This matrix contains the parameters for a linear model of temporal
+changes in the species composition of a forest. The changes in the
+abundances of the species depend on the current composition of
+species. Therefore, if we start with a forest containing only
+big-toothed aspen and nothing else, the composition after one time
+step would be,
+<<>>=
+n0 <- numeric(nrow(X))
+n0[1] <- 1
+X %*% n0
+@ 
+The idea here is that big-toothed aspen facilitates the establishment
+of certain other species.
+
+Exercise 6* (this will be homework).  Determine the long-run
+composition of the forest using a \code{for} loop, the explicit
+closed-form eigenvector-based solution, \emph{or} the \verb+%^%+
+operator in the \code{exmp} package, and compare it with the dominant
+eigenvector (don't forget to normalize!).  Sort the normalized vector
+of the long-run composition in decreasing order and produce a bar plot
+of the state variable (HINT: type \code{?sort} and \code{?barplot} to
+see these help files). The results of a \code{for} loop or the
+\verb+%^%+ operator will have names, which will be convenient for your
+bar plot). What is the dominant species?  How many species will be
+present at frequencies of $>5\%$? Is the origin a stable fixed point
+in this model (HINT: What happens if one of the eigenvalues has
+modulus of exactly one? Do your best!)
+
+<<fig.keep='none', echo = FALSE,eval=FALSE>>=
+library(expm)
+(f <- normalize(Re(eigen(X)$vectors[,1])))
+(X %^% 100)[,1]
+names(f) <- colnames(X)
+par(mar=c(3,8,1,1),las=1)
+barplot(sort(f),horiz=TRUE)
+abline(v=0.05,lty=2)
+@ 
+
+%% \bibliography{bookbib}
+
+\end{document}
+
