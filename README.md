@@ -24,7 +24,14 @@
     ARTS&SCI 1D06, ISCI 1A24); and (co-requisite) linear algebra
     (credit or registration in one of MATH 1B03, 1D03, 1H03, 1HH3; or
     one of MATH 1ZC3, 1ZZ5. ).
-- [Course website:](https://github.com/stevencarlislewalker/3mb3) 
+- [Course website:](https://github.com/stevencarlislewalker/3mb3)
+  Either you are already here or you need to write this down:
+  `https://github.com/stevencarlislewalker/3mb3`.  To download all of
+  the currently available course material (recommended), click on the
+  `Download ZIP` button on this page.  **Material will be added
+  throughout the semester, so you will need to check back and
+  periodically re-download**.  You can also browse through the files
+  via the links above.
 - Computer software and hardware: we will use the open-source
     [R language](http://www.r-project.org) throughout the course. In
     particular, we will use the RStudio development environment, which
