@@ -29,15 +29,17 @@
     particular, we will use the RStudio development environment, which
     will be available on the computers in the lab, but it will be most
     convenient if you can install both R and
-    [RStudio](http://www.rstudio.com/) on your own computer. (Lab
-    hours (see above) are reserved for students in this course and you
-    have priority over students not registered in this course at that
-    time.  However, you should also be able to work there outside of
-    this allocated time-slot unless the computer lab has been reserved
-    for some other course.) **I hope that it will be possible for
-    students to bring (or share) a laptop for work during class
-    sessions.** A backup device such as a memory stick is required in
-    order to save your work.
+    [RStudio](http://www.rstudio.com/) on your own computer.  Please
+    try and install RStudio on your own *before* the first lab.  Let
+    us know *before* the lab if you can't manage. (Lab hours (see
+    above) are reserved for students in this course and you have
+    priority over students not registered in this course at that time.
+    However, you should also be able to work there outside of this
+    allocated time-slot unless the computer lab has been reserved for
+    some other course.) **I hope that it will be possible for students
+    to bring (or share) a laptop for work during class sessions.** A
+    backup device such as a memory stick is required in order to save
+    your work.
 - Class rules:
 	1. respect others
 	2. don't talk while someone else is talking
@@ -55,6 +57,16 @@
     3. 35%, projects
     4. 15%, midterm
     5. 20%, final exam
+- Assignments: there will be four homework assignments to hand in for
+  marks (5% each).  The due dates for these assignments are on the
+  [lecture schedule](https://github.com/stevencarlislewalker/3mb3/blob/master/schedule/schedule.md). Assignments
+  are to be submitted by email to
+  [David](mailto:david.champredon@gmail.com) **before lecture** on the
+  day they are due.  Each assignment is associated with a particular
+  lab sessions (see schedule).  All assignments are to be formatted
+  using [R markdown](http://rmarkdown.rstudio.com/), which will be
+  discussed in the first lab.  [Here]() is an example of a completed
+  homework assignment.
 - **Course objective:** To learn to apply mathematical tools to solve
     open-ended, real-world problems, to understand the benefits and
     limitations of mathematical modeling, and to critically assess the

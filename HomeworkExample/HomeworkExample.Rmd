@@ -1,0 +1,52 @@
+---
+title: "Example homework document"
+output: html_document
+---
+
+### Exercise 2, p.38 of MS
+
+Find a closed-form solution for the affine recurrence relation,
+$$ x(n) = Rx(n-1) + a $$
+My approach is to linearize the equation by a change of variables, use the closed form solution for linear models, and then back-transform to the original state variable.  To guide my choice of variable I will first find a fixed point, $x{\star}$,
+$$ x{\star} = Rx{\star} + a $$
+$$ x{\star} = \frac{a}{1-R} $$
+I now define a new variable, $y(n)$, which is the deviation of $x(n)$ from $x{\star}$,
+$$ y(n) = x(n) - x(\star) = x(n) - \frac{a}{1-R} $$
+Transforming the original model we obtain,
+$$ y(n) + x{\star} = R(y(n-1) + x{\star}) + a $$
+$$ y(n) = Ry(n-1) - x{\star}(1-R) + a $$
+$$ y(n) = Ry(n-1) - a + a $$
+$$ y(n) = Ry(n-1) $$
+This is a linear model in $y(n)$, with solution,
+$$ y(n) = n(0)R^n $$
+Back-transforming yields,
+$$ x(n) - x{\star} = (x(0) - x{\star})R^n $$
+$$ x(n) = (x(0) - x{\star})R^n + x{\star} $$
+$$ x(n) = x(0)R^n + x{\star}(1 - R^n) $$
+$$ x(n) = x(0)R^n + \frac{a(1 - R^n)}{1 - R} $$
+
+This solution allows us to straightforwardly identify the difference between a linear model and an affine model,
+$$ \underbrace{x(n) = x(0)R^n}_{\text{linear part}} + 
+\underbrace{\frac{a(1 - R^n)}{1 - R}}_{\text{affine part}} $$
+
+### Additional requirement
+
+Additionally, we are required to graph the affine model for $R=0.5, a=1, x(0)=1$ for twenty time steps, and highlighting $x{\star}$ and $x(0)$,
+```{r}
+nMax <- 20
+R <- 0.5
+a <- 1
+x0 <- 1
+n <- 0:nMax
+x <- x0*(R^n) + (a*(1-R^n))/(1-R)
+par(mar = c(4, 4, 4, 6))
+plot(0:nMax, x, type = "o", las = 1,
+     xlab = "time step, n", ylab = "state variable, x",
+     main = "Affine model, x(n) = Rx(n-1) + a")
+abline(h = c(x0, a/(1-R)), lty = 2)
+axis(side = 4, at = c(x0, a/(1-R)), 
+     labels = c("initial","equilibrium"),
+     las = 1)
+text(x = 15, y = 1.2, "R = 0.5\na = 1",
+     cex = 1.2)
+```
