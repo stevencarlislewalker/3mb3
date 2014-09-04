@@ -1,4 +1,4 @@
-% Course outline:  MATH 3MB3 -- 2014
+# Course outline:  MATH 3MB3 -- 2014
 
 ## The basics
 
