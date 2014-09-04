@@ -54,8 +54,9 @@
 - Class rules:
 	1. respect others
 	2. don't talk while someone else is talking
-	3. try
-	4. ask questions
+	3. read lab handouts before labs
+	4. try
+	5. ask questions
 - Assessment: there will be a mid-term exam in class and a cumulative
     final exam during the time scheduled by the registrar's
     office. Other assignments will include weekly problem sets,
