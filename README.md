@@ -32,7 +32,9 @@
   `Download ZIP` button on this page.  **Material will be added
   throughout the semester, so you will need to check back and
   periodically re-download**.  You can also browse through the files
-  via the links above.
+  via the links above.  Note however that you may be frustrated by how
+  `github` handles `pdf` and `html` files.  This is why its best to
+  download the entire repository.
 - Computer software and hardware: we will use the open-source
     [R language](http://www.r-project.org) throughout the course. In
     particular, we will use the RStudio development environment, which
