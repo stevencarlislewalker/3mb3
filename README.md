@@ -9,7 +9,8 @@
     are **UPDATE AFTER IN-CLASS POLL**. Meetings during office hours
     are preferred but I can also meet at other times by appointment.
 -   Teaching assistant: David Champredon
-    [david.champredon@gmail.com](mailto:david.champredon@gmail.com) 
+    ([david.champredon@gmail.com](mailto:david.champredon@gmail.com))
+    will be running the labs.
 - Class times and location: Lectures are in HH/104 on Mon. and
     Thurs. 12:30-1:20 and Tues. 1:30-2:20.  Computer labs are in
     BSB/244 on Tues. 2:30-3:20.  Lecture periods may be used
@@ -111,18 +112,16 @@
 ### Policies
 
 1.  **Policy on missed work or lectures:** You should be aware of the
-    [Policy For Absence from School Due to Illness or Compassionate
-    Reasons](http://www.science.mcmaster.ca/associatedean/forms/missedwork.html).
-	(http://academiccalendars.romcmaster.ca/content.php?catoid=7&navoid=559#Requests_for_Relief_for_Missed_Academic_Term_Work)
+    [Policy For Absence from School Due to Illness or Compassionate Reasons](http://academiccalendars.romcmaster.ca/content.php?catoid=7&navoid=559#Requests_for_Relief_for_Missed_Academic_Term_Work)
     It is important to know your rights and your responsibilities. If
-    you must miss a presentation or cannot submit assigned work on time
-    for a valid reason (e.g., medical reasons, etc.) you may be able to
-    obtain an excused absence by taking appropriate documentation (e.g.
-    note from physician) to the Faculty/Program office and then
-    discussing this with your instructor. If the Faculty/Program gives
-    its approval, the final examination will then be given the
-    appropriate extra weighting. Otherwise, a grade of zero will be
-    entered for the missed work.
+    you must miss a presentation or cannot submit assigned work on
+    time for a valid reason (e.g., medical reasons, etc.) you may be
+    able to obtain an excused absence by taking appropriate
+    documentation (e.g.  note from physician) to the Faculty/Program
+    office and then discussing this with your instructor. If the
+    Faculty/Program gives its approval, the final examination will
+    then be given the appropriate extra weighting. Otherwise, a grade
+    of zero will be entered for the missed work.
 
     If you must miss a lecture, it is your responsibility to find out
     what was covered. The best way to do this is to borrow a classmate's
