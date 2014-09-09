@@ -1,5 +1,7 @@
 # Course outline:  MATH 3MB3 -- 2014
 
+## Bookstore Update:  books _should_ be in by the end of today (Sept 9)
+
 ## Our class
 
 ### Computer language preferences:
