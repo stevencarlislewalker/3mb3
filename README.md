@@ -3,7 +3,7 @@
 ## *Important!*
 The notes in [`lab1.pdf`](https://github.com/stevencarlislewalker/3mb3/blob/master/labNotes/lab1/lab1.pdf) have changed. Please use the new version
 
-## Bookstore Update:  books _should_ be in by the end of today (Sept 9)
+## Bookstore Update:  Books are sold out again.  New ones _should_ be in by the end of Monday (Sept 15)
 
 ## Our class
 
