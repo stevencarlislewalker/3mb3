@@ -1,0 +1,24 @@
+Mini pop quiz (not for marks!)       name:  
+------------------------
+1. Write down the recurrsion for the geometric growth model. In other words,
+    write down an expression for N(t+1) as a function of N(t).
+
+Solution: N(t+1) = R N(t)
+
+
+2. Write down the time-dependent solution of the geometric growth model.
+    In other words, write down an expression for N(t) as a function of t.
+
+Solution: N(t) = N(0) R^t
+
+*FURTHER HOMEWORK* (also not for marks): prove this 
+Hint:  http://en.wikipedia.org/wiki/Mathematical_induction
+
+3. Write down the only value that is *always* a fixed point of the geometric
+    growth model.
+
+Solution: N* = 0
+
+4. Write down the condition(s) for the stability of this fixed point.
+
+Solution: |R| < 1
