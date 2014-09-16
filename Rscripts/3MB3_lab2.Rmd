@@ -1,0 +1,192 @@
+---
+title: "Lab #2: Logistic Model"
+output: html_document
+---
+
+Homework: famillyName_HW1.rmd
+
+
+1- Plotting a linear growth model 
+===============================
+
+
+The linear growth model is 
+$$ N(t_i)-N(t_{i-1}) = r \, N(t_{i-1})$$
+
+If your discrete time step is shrunk to something very very small, then you tend to a continuous time model (see Dr Walker's lectures in a few weeks):
+$$ \frac{dN(t)}{dt} = r N(t)$$
+In most cases it is too simplistic: the quantity modelled either *explodes* or *disappears* because the solution of such system is an exponential: $N(t) = N_0 e^{rt}$.
+
+```{r plot.simple.exponential, echo=TRUE}
+
+### Define the vector of times
+the.time = seq(from=0, to=100, by=1)
+
+### Define model parameters
+r.pos = 0.01
+r.neg = -0.02
+N0 = 1000
+
+### Analytical solutions
+sol.pos = N0*exp(r.pos*the.time)
+sol.neg = N0*exp(r.neg*the.time)
+
+### (Ugly) plot the solutions
+plot(x=the.time, y=sol.neg)
+
+# , ylim=c(0,5000)
+#, ylim=range(sol.pos,sol.neg)
+
+lines(x=the.time, y=sol.pos)
+
+
+### More readable plot
+
+plot(x=the.time, 
+     y=sol.neg, 
+     ylim=range(sol.pos,sol.neg),
+     main = "Linear Growth Model",  # Title
+     xlab = "Time in days",  # label for x-axis
+     ylab = "Population size",
+     typ="l",  # the type of line will be a line, not the default circles
+     col="blue",  # color
+     lwd=3,  # "line width"; thicker lines 
+     lty=1  # "line type": solid, dashed, dotted, etc.
+     )
+
+lines(x=the.time, 
+      y=sol.pos,
+      typ="o",  # the type of line will be a line, not the default circles
+      col="red",
+      lwd=3,  # "line width"; thicker lines 
+      lty=2  # "line type": solid, dashed, dotted, etc.)
+      )
+
+### Add a gridto the last plot drawn
+grid()
+
+### Add the legend to the last pplot drawn
+legend(x = "topleft",
+       legend = c("Negative growth","Positive growth"),
+       col=c("blue","red"),  ### must be in SAME order as the legend
+       lwd=3,   ### must be in SAME order as the legend
+       lty=c(1,2), ### must be in SAME order as the legend
+       bg="white") ### Background color of the legend box
+
+
+### Lab Reminder: toggle on/off echo
+
+```
+   
+   
+2- Logistic model
+==========
+
+In many sytems (biology, economics, physics, etc.), 'something' slows down the growth of the quantity considered:
+
+ - bacterial reproduction is fought by immune system cells
+ - a rocket runs out of fuel
+ - as unemployed people get poorer, they are more willing to accept lower wages, which makes them more attractive to employer, which in turn reduces unemployment growth 
+
+One naive way to model this, staying in a univariate model (only one variable), is to make the growth rate dependent on the value of the quantity itself:
+
+ $$N(t_{i+1})-N(t_i) = r(N(t_i))\times N(t_i)$$
+ 
+
+
+What to choose for $r()$? Well, it depends on what you are modelling.
+
+Let's work with a population model: growth is limited by limited ressources (food) available, competition among individual, diseases, and so on...
+
+Naively, you want the population to:
+
+- grow when there aren't too many individuals around
+- stop growing, or even decrease, when there are too many individuals
+
+So let's assume something vey simple:
+
+$$r(N)= a-bN$$
+
+```{r plot.growth.rate.logistic, echo=TRUE}
+
+N = seq(from=0, to = 1e6, length.out=100)
+a = 0.12
+b = a/500000
+
+plot(x=N, y=a-b*N, typ="l",lwd=6)
+
+### Make a horizontal line at y=0
+abline(h=0,lty=2)
+
+```
+
+Hence the model of population growth is
+
+ $$N(t_{i+1})-N(t_i)= [a-bN(t_i)]\, N(t_i)$$
+
+Let's implement this model to find numerical solutions.
+
+Re-arranging and assuming our discretization of time is uniform and equal to 1 unit of time (days, year, etc.)
+
+
+$$ N(t_{i}) = [1+ a - bN(t_{i-1})]\, N(t_{i-1})$$
+
+Assume our starting population is $N_0=100$ and that $a=0.12$ and $b=10^{-5}$.
+
+```{r solving.logistic.model, echo = TRUE}
+
+### Set the horizon and time step of the simulation
+horizon = 100
+timestep = 1
+time = seq(from=0, to=horizon, by=timestep)
+
+### Parameters
+N0 = 100
+a = 0.12
+b = 1E-5
+
+### Define the vector that 
+### will hold the solution
+n.points = length(time)
+N = numeric(n.points)
+
+### Initial condition
+N[1] = N0
+
+### Solve the discrete ODE
+for(i in 2:n.points)
+  {
+    N[i] = (1+a-b*N[i-1])*N[i-1]
+  }
+
+print(N)
+```
+
+It's better to plot:
+
+```{r plot.sol.logistic, echo=TRUE}
+
+plot(main = "Population According to the Logistic Model",
+     x = time, 
+     y = N, 
+     typ="l", lwd=6)
+grid()
+```
+
+Now, we know a bit more about the theory. We can look for **fixed points**:
+
+$$N^\star = (1+a-bN^\star)N^\star \Leftrightarrow N^\star=0 \,\, \mathrm{or} \,\, N^\star=a/b$$
+
+So, if we start with a non-zero population, it will grow to $N^* =a/b=$ `r a/b`.
+
+```{r plot.theoretical.stable.point, echo=TRUE}
+plot(main = "Population According to the Logistic Model",
+     x = time, 
+     y = N, 
+     typ="l", lwd=6)
+
+abline(h=a/b, col="red", lty=2, lwd=4)
+grid()
+```
+
+((Lab reminder: if time ask what happens if starting population is 100,000))
