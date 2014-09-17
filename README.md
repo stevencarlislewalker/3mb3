@@ -114,7 +114,7 @@ Stats - 4,
   are to be submitted by email to
   [David](mailto:david.champredon@gmail.com) **before lecture** on the
   day they are due, **with the subject `3MB3 homework`**.  Each
-  assignment is associated with a particular lab sessions (see
+  assignment is associated with particular lab sessions (see
   schedule).  All assignments are to be formatted using
   [R markdown](http://rmarkdown.rstudio.com/), which will be discussed
   in the first lab.  An example of a completed homework assignment in
