@@ -2,23 +2,9 @@
 
 ## Homework reminders
 
-1. Assignment for lab one is due this thursday by email *before*
-   lecture.
-2. Assignments are to be submitted by email to
-  [David](mailto:david.champredon@gmail.com) with the subject `3MB3
-  homework`**
-3. The assignment consists of all exercises in `lab1.pdf` with an
-   asterisk.
-4. One of the exercises requires the textbook (email me if you still
-   don't have the textbook).
-5. The homework *must* be handed in using the R markdown format.  See
-   the `lab1.pdf` handout for information on this format, and
-   [here](https://github.com/stevencarlislewalker/3mb3/tree/master/HomeworkExample)
-   for an example.
-
-The notes in [`lab1.pdf`](https://github.com/stevencarlislewalker/3mb3/blob/master/labNotes/lab1/lab1.pdf) have changed. Please use the new version
-
-## Bookstore Update:  Books are sold out again.  New ones _should_ be in by the end of Monday (Sept 15)
+Please name all submitted `Rmd` files using the following format:
+`macid_x.Rmd`, where `x` indicates the assignment.  Examples of `x`
+include `HW2`, `HW3`, `HW4`, `proposal`, `project`, `participation`.
 
 ## Our class
 
