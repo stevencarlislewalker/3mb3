@@ -1,0 +1,33 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+## Participation homework
+
+Here we analyze the system,
+$$ x(t+1) = f(x(t)) $$
+where,
+$$ f(x) = \frac{-1}{4}x^2 + x + 1 $$
+for state variable $x$ and time-step $t$.  Specifically, we find the fixed points of this system and analyze their stability.
+
+### Fixed points
+
+A fixed point, $x{\star}$, of this system satisfies,
+$$ f(x{\star}) = x{\star} = \frac{-1}{4}x{\star}^2 + x{\star} + 1 $$
+Solving this equation we have,
+$$ 0 = \frac{-1}{4}x{\star}^2 + 1 $$
+$$ \frac{1}{4}x{\star}^2 = 1 $$
+$$ x{\star} = \pm 2 $$
+
+### Stability
+
+A fixed point $x{\star}$ is stable if,
+$$ |f'(x{\star})| < 1 $$
+where $f'(x)$ is the first derivative of $f$ with respect to $x$ at $x$.  For this system we have,
+$$ f'(x) = \frac{-1}{2}x + 1 $$
+At the first fixed point we have,
+$$ f'(-2) = \frac{2}{2} + 1 = 2 = |2| > 1, \text{ (unstable)} $$
+At the second fixed point we have,
+$$ f'(2) = \frac{-2}{2} + 1 = 0 = |0| < 1, \text{ (stable)} $$
+Therefore, $x{\star} = -2$ is unstable and $x{\star} = 2$ is stable.
