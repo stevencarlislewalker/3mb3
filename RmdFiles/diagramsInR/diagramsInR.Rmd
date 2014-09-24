@@ -1,8 +1,3 @@
----
-title: ''
-output: html_document
----
-
 ### Using the diagram package
 
 You will need to first install the `diagram` package, and then load it in to your workspace,
