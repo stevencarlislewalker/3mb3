@@ -42,6 +42,8 @@ This says that we want to put the `susceptible` box at the x-y coordinates given
 plotmat(B, pos = Bpos, box.size = 0.08)
 ```
 
+The `diagram` package can do much more [http://cran.r-project.org/web/packages/diagram/vignettes/diagram.pdf](http://cran.r-project.org/web/packages/diagram/vignettes/diagram.pdf).
+
 ### Use some other drawing program
 
 This way isn't as much fun!  But you could just make a `png` file in another program and load it in to R markdown:
