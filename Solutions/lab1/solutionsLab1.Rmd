@@ -24,7 +24,7 @@ tvec <- 0:14
 N_best <- startval * (1 + L["best"])^tvec
 
 ## and so forth
-par(mar = c(5, 4, 2, 8) + 0.1)     ## enlarge right margin for legend
+par(mar = c(5, 4, 2, 8) + 0.1, xpd = TRUE)     ## enlarge right margin for legend
 leg_inset <- -0.38
 matplot(tvec, cbind(N_best, N_medium, N_worst),
         type = "o",           ## lines going through points
@@ -57,7 +57,7 @@ N <- list(best = N_best,
           worst = N_worst)
 tvec <- 0:14
 
-par(mar = c(5, 4, 2, 8) + 0.1)
+par(mar = c(5, 4, 2, 8) + 0.1, xpd = TRUE)
 plot(range(tvec), c(0, 140),
      type = "n", las = 1,
      ylab = "Population",
