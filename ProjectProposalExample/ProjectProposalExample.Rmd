@@ -1,0 +1,33 @@
+---
+title: "Project proposal example"
+output: html_document
+---
+
+## Question
+
+Many of Canada's lakes contain populations of fish that are predators of smaller-bodied fish.  Under a wide variety of natural conditions these predator-prey systems are stable.  Humans interact with these systems in at least two ways:  (1) by fishing for larger-bodied predatory fish and (2) artificially enhancing predatory fish stocks.  Here we analyze a simple model of predator-prey interactions to ask how fishing and stocking influence the stability of this system.
+
+## Model construction
+
+### Variables
+
+$V(t)$ and $P(t)$ are the numbers of prey (`V` for victims) and predators in year $t$.
+
+### Assumptions and parameters
+
+I construct my model in discrete time with a time step of one year.  This assumption is reasonable given that most fish spawn once a year.  We assume that in the absence of predators, prey increase in abundance according to a linear model.  Similarly, in the absence of prey, predators die according to a linear model.
+
+We assume that prey are captured by predators according to the mass-action principle.  That is, any particular predator and any particular prey have equal chance of encountering each other, regardless of the distance between them.  Therefore, predators capture prey at a rate proportional to $V(t)P(t)$.  We assume that predators convert captured prey into new predators with efficiency, $e$.  That is, if $x$ prey are captured in one time step, $ex$ new predators will appear next step.
+
+We assume that predators are fished by a fishery that has a quota of $h$ fish per year.  Furthermore, we assume that the fishery never under- or over-shoots its quota.  Finally, we also assume that each year $m$ predator fish are added to the lake by natural resource managers.
+
+### Model equations in discrete time
+
+These assumptions lead to the following set of equations for the dynamics of the predator-prey system,
+$$ V(t + 1) = V(t) + aV(t) - cV(t)P(t) $$
+$$ P(t + 1) = P(t) + ecV(t)P(t) - fP(t) + m - h $$
+where, $a$ is the growth rate of prey in the absence of predators, $c$ is the per-predator-prey-encounter rate of prey capture, $e$ is the efficiency of predators at converting captured prey into resources, $f$ is the per-predator mortality rate, $m$ is the rate of stocking and $h$ is the rate of fishing harvest.
+
+## Proposed analysis
+
+I will research the literature on fresh water fisheries in Canada to propose default values for all parameters other than $m$ and $h$.  Given these default values, I will attempt to analytically find the values of $m-h$ that lead to stability of the system.  Having gained knowledge from this analysis, I will modify the above model with the aim of making it more realistic.  For example, mortality is expected to occur continuously throughout the a year, and so a potential adjustment to this model could be adding seasonal dynamics.  Another possible modification could be to relax the mass-action assumption.  Then I will analyze this modified model using a combination of stability analysis and numerical solutions
