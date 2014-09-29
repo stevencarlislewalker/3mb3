@@ -3,8 +3,8 @@
 ## Project proposals
 
 Compose a proposal for a final project using R markdown, and email it
-to both David and I as a participation email.  The proposal should
-include the following elements:
+to both David and I as a participation email (*due Oct 21 before
+class*).  The proposal should include the following elements:  
 
 1. A question about the natural or social world that includes *no
    math*.
