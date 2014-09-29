@@ -1,5 +1,23 @@
 # Course outline:  MATH 3MB3 -- 2014
 
+## Project proposals
+
+Compose a proposal for a final project using R markdown, and email it
+to both David and I as a participation email.  The proposal should
+include the following elements:
+
+1. A question about the natural or social world that includes *no
+   math*.
+2. Background about that question.
+3. State variables.
+4. A description of the assumptions and parameters (including units).
+5. Model equations for addressing the question.
+6. A proposed analysis for how you would use this model to address
+   your question.
+
+
+
+
 ## Homework reminders
 
 Please name all submitted `Rmd` files using the following format:
