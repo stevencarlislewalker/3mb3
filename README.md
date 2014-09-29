@@ -15,7 +15,7 @@ include the following elements:
 6. A proposed analysis for how you would use this model to address
    your question.
 
-
+See here for an example [https://github.com/stevencarlislewalker/3mb3/tree/master/ProjectProposalExample](https://github.com/stevencarlislewalker/3mb3/tree/master/ProjectProposalExample)
 
 
 ## Homework reminders
