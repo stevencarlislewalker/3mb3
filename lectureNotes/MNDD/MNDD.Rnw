@@ -1,0 +1,111 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{fullpage}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{Multivariate nonlinear discrete-time deterministic models}
+\author{\copyright\ Steve Walker \today}
+\date{}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+
+<<include=FALSE>>=
+opts_chunk$set(height=2.7,fig.width=3)
+@
+
+ \setkeys{Gin}{width=3in} 
+ 
+ Basic model: $\bm x(t+1) = \bm f(\bm x(t))$, where $\bm f$ is a
+ vector-valued function of a vector-valued state variable, $\bm x$,
+ and $t$ takes on discrete values, $0,1,...$. This is fairly abstract
+ notation so let's write it out using scalar notation for a particular
+ example. We use the susceptible-infected (S-I) model,
+ \begin{equation*}
+  \begin{split}
+    S(t+1) & =S(t) + m(N-S(t))-S(t) \left(1-e^{-\beta I(t)}\right) \\
+    I(t+1) & =I(t) + S(t)\left(1-e^{-\beta I(t)}\right)-(m+\gamma)I(t)
+    \end{split}
+  \end{equation*}
+  Parameters: $m$, birth/death rate ($1/m$ is the average lifespan
+  measured in units of $\Delta t$); $\gamma$, recovery rate
+  ($1/\gamma$ is the average length of infectivity, ditto); $\beta$ is
+  the contact rate (new infections per susceptible per infective per
+  time period); $N$ is the population size (can be rescaled to
+  proportion of population if we rescale $\beta$ as well, unless we
+  are dealing with a discrete-population model). We return to this
+  example throughout these notes.
+    
+\section*{Fixed points}
+
+$\bm x{\star}$ is a fixed point if $\bm x{\star} = \bm f(\bm
+x{\star})$. Unlike the linear case, we can say very little about what
+these solutions will look like in general, so we look at the
+epidemiological special case. At equilibrium, the susceptible equation
+becomes $0 = m(N-S)-S(1-e^{-\beta I})$, while the infected equation is
+$0 = S(1-e^{-\beta I}) - (m+\gamma)I$. In this application, a
+disease-free equilibrium, in which $I = 0$, is of particular
+interest. In this case, the susceptible equation reduces to $S=N$.
+
+\section*{Stability}
+
+The stability of fixed points is investigated using the Jaccobian
+matrix, which for the general $2\times 2$ case is,
+\begin{equation*}
+  \label{eq:1}
+  \begin{pmatrix}
+    \frac{\partial f_1(x_1, x_2)}{\partial x_1} & 
+    \frac{\partial f_1(x_1, x_2)}{\partial x_2} \\
+    \frac{\partial f_2(x_1, x_2)}{\partial x_1} & 
+    \frac{\partial f_2(x_1, x_2)}{\partial x_2} \\
+  \end{pmatrix}
+\end{equation*}
+A fixed point is stable if all of the eigenvalues of this matrix
+(evaluating at the fixed point) have absolute value less than one.
+
+The Jaccobian for the epidemiology model is,
+\begin{equation*}
+  \label{eq:1}
+  \begin{pmatrix}
+    \frac{\partial S(t+1)}{\partial S(t)} & 
+    \frac{\partial S(t+1)}{\partial I(t)} \\
+    \frac{\partial I(t+1)}{\partial S(t)} & 
+    \frac{\partial I(t+1)}{\partial I(t)} \\
+  \end{pmatrix}
+\end{equation*}
+which in general is equal to,
+\begin{equation*}
+  \label{eq:2}
+    \begin{pmatrix}
+    -m + e^{-\beta I} & -\beta S e^{-\beta I} \\
+    (1 - e^{-\beta I}) & 1 + \beta S e^{-\beta I} - (m + \gamma) \\
+  \end{pmatrix}
+\end{equation*}
+and at the disease-free equilibrium the Jaccobian is,
+\begin{equation*}
+  \begin{pmatrix}
+    1-m & -\beta N \\
+    0 & 1 + \beta N - (m+\gamma) \\
+  \end{pmatrix}
+\end{equation*}
+Since this is an upper triangular matrix, its eigenvalues are on the
+diagonal. Thus the stability conditions for the model are,
+\begin{itemize}
+\item $|1 - m| < 1$
+\item $|1 + \beta N - (m+\gamma)| < 1 $
+\end{itemize}
+The first condition puts a hard requirement on $m$ for stability,
+which is that $m$ must be between zero and two. The other condition is
+more complex.
+
+\end{multicols}
+\end{document}
