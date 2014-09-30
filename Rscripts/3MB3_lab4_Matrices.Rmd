@@ -1,0 +1,315 @@
+---
+title: "Lab 4 - Matrices"
+output: html_document
+---
+
+Aims for this lab:
+
+- Introduction to matrices in R
+- Basic operations on matrices
+- Exercise 4 (lab3.pdf)
+- Introduction to functions in R
+
+
+Matrix construction in R
+-----------------
+
+You can define a matrix manually:
+```{r}
+M1 = matrix(c(1,2,3,4,5,6,7,8), ncol=2)
+print(M1)
+M2 = matrix(c(1,2,3,4,5,6,7,8), ncol=4)
+print(M2)
+```
+
+Be careful when constructing a matrix from existing vectors:
+```{r}
+# Two vectors
+a = c(1,2,3)
+b = c(7,8,9)
+
+# I want a matrix from a and b
+M3=matrix(a,b)
+print(M3)
+
+```
+That's not what I want! The first argument of `matrix` was understood to be the **data** and the second argument the number of rows which is expected to be an integer. So R only took the first value of the second argument (vector `b`) and then 'forced' the data to be a 7 rows matrix!
+
+To define a matrix from existing vectors, use `cbind()` or `rbind()`:
+```{r}
+# Binds the two vectors as "columns" of the matrix
+P1 = cbind(a,b)
+print(P1)
+
+# Binds the two vectors as "rows" of the matrix
+P2 = rbind(a,b)
+print(P2)
+```
+
+Define a BIG matrix: you don't want to do that manually. Assume you have a formula for each element of the matrix $M$:
+$$ M[i,j] = (1+i)\cos(j)$$
+
+```{r}
+# number of rows: 
+n = 30
+# number of columns:
+m = 8
+
+# Define an empty matrix (filled with NAs)
+M = matrix(nrow=n, ncol=m)
+
+for(i in 1:n)
+  {
+    for(j in 1:m)
+      {
+        M[i,j] = (1+i)*cos(j)
+      }
+  }
+
+
+print(M)
+
+```
+
+
+
+Basic operations on matrices
+===============
+
+Let's define two matrices randomly:
+```{r}
+# Same randomness every time this code is run:
+set.seed(1234)
+
+A = matrix(runif(n = 10),ncol=2)
+B = matrix(runif(n = 14),nrow=2)
+
+print(A);print(B)
+
+C = A %*% B
+print(C)
+
+
+M = 2*A
+print(M)
+
+# This will produce an error message
+# because dimensions don't match
+# D = B %*% A
+# D = B + A
+
+```
+
+Element by element product (NOT the matrix product!!!!)
+```{r}
+S = matrix(c(1:9),ncol=3)
+U = matrix(c(5:13),ncol=3)
+print(S);print(U)
+S2 = S*U
+print(S2)
+```
+
+
+
+You can mix matrices and vectors
+```{r}
+
+q = c(-1,1)
+G = A %*% q
+print(G)
+
+```
+
+Powers of matrices:
+```{r}
+
+J = matrix(c(1,0,3,7), ncol=2)
+
+P = J%*%J%*%J
+print(P)
+
+# element by element
+P2 = J^3
+print(P2)
+P2==P
+
+# The 'true' matrix power
+# requires package 'expm'
+library(expm)
+P3 = J%^%3
+P3==P
+```
+
+
+Maths Fundamentals
+------------------
+  
+You should be *very* comfortable with the following
+
+Assuming $M$ is a diagonizable matrix, there exists a matrix $S$ such that
+
+$$ M = SDS^{-1}$$
+
+$D$ is a diagonal matrix, its diagonal elements are the eigenvalues. The column vectors of matrix $S$ are the eigen vectors.
+
+
+Hence, a numerically efficient way to calculate $M^n$ is to use this decomposition:
+
+$$ M^n = (SDS^{-1})(SDS^{-1})...(SDS^{-1}) = SD(S^{-1}S)DS^{-1} ... SD(S^{-1}S)DS^{-1}$$
+$$ M^n = SD^nS^{-1} $$
+
+If $n$ is large, it is much more costly (in terms of computer time and memory) to perform $n$ matrix multiplications than raising just the diagonal elements to the power $n$ , inversing one matrix and 2 further matrix multiplications.
+
+With this expression of $M^n$ it is clear that a linear system $x(t+1) = Mx(t)$ will have the origin as a stable point if all eigenvalues have a norm *strictly* smaller than  1: $\lim_{n\to \infty} D_{ii}^n=0$ thus $\lim_{n\to \infty} M^n=0$
+  
+  
+Exercice 4
+----------
+
+  
+```{r}
+X <- matrix(c(0, 0.1, 1.5, 1, 0,0, 0,  0.4, 0.2), byrow=TRUE, nrow=3)
+print(X)
+
+# Matrix where the solution will be stored at each time step
+N <- matrix(0,20+1,3)
+
+# Initial condition
+n0 <- rep(x=1, times=3)
+N[1,] <- n0
+
+# solving the linear system
+# n[i] = X*n[i-1] , 20 times
+
+for(i in 2:21) N[i,] <- X %*% N[i-1,]
+
+print(N)
+
+#Plot solution
+plot(x=0:20, y=N[,1], ylim = range(N), type = "n",
+     xlab="Time Step", ylab="State")
+for(i in 1:3) lines(x=0:20, y=N[,i], lty = i)
+
+mylabel = paste("State",c(1:3))
+mylty = c(1:3)
+legend(x="topright",legend=mylabel, lty=mylty)
+```
+
+Now let's put what we've done inside a function:
+
+```{r bigfunction}
+
+solve.my.system <- function(initial.condition, time.horizon)
+{
+  # Matrix where the solution will be stored at each time step
+N <- matrix(0,time.horizon+1,3)
+
+  # Initial condition
+N[1,] <- initial.condition
+
+# solving the linear system
+for(i in 2:(time.horizon+1)) N[i,] <- X %*% N[i-1,]
+
+return(N)
+}
+
+```
+
+
+
+```{r echo=FALSE}
+normalize <- function(x) { x/sum(x)
+}
+```
+
+
+We can now answer question 4 (with the loop method)
+```{r}
+
+myHorizon = 100
+
+# define the two initial conditions
+n0.a = c(1,1,1)
+n0.b = c(1,0,0)
+
+N.a = solve.my.system(n0.a, myHorizon)
+answer.a = N.a[myHorizon+1,]
+
+N.b = solve.my.system(n0.b, myHorizon)
+answer.b = N.b[myHorizon+1,]
+
+print(normalize(answer.a))
+print(normalize(answer.b))
+```
+
+We can also plot the solutions:
+```{r}
+plot(x=c(1:(myHorizon+1)), y=N.a[,1],typ="l",
+     xlab = "time step", ylab="value")
+for (k in 2:3) lines(x=c(1:(myHorizon+1)), y=N.a[,k], col=1)
+
+# Solutions starting from the othr initial condition
+for (k in 1:3) lines(x=c(1:(myHorizon+1)), y=N.b[,k], col=2)
+
+legend(x="topright",col=c(1,2), legend=c("Initial condition A","Initial condition B"), lwd=1)
+```
+
+If the 3 states variables were coordinates of an object moving in 3d:
+```{r}
+library(scatterplot3d)
+scatterplot3d(N.a[,1],N.a[,2],N.a[,3], pch=16, highlight.3d=FALSE,
+  type="h", main="3D Scatterplot")
+
+```
+
+
+
+
+Now with the eigen decomposition method
+
+
+```{r}
+S <- eigen(X)$vectors
+d <- eigen(X)$values
+D <- diag(d,nrow=length(d))
+
+answer.eigen.a = Re(S %*% D^100 %*% solve(S) %*% n0.a)
+answer.eigen.a = normalize(answer.eigen.a)
+print(answer.eigen.a)
+
+answer.eigen.b = Re(S %*% D^100 %*% solve(S) %*% n0.b)
+answer.eigen.b = normalize(answer.eigen.b)
+print(answer.eigen.b)
+```
+
+
+Finally, with the `expm` package. Not all (installed) R libraries are loaded automatically at startup. If you want to use one, use the `library` keyword 
+
+```{r message=FALSE}
+library(expm)
+```
+
+We are all set up to solve now:
+```{r}
+X.final.a = X%^%myHorizon %*% n0.a
+print(normalize(X.final.a))
+
+X.final.b = X%^%myHorizon %*% n0.b
+print(normalize(X.final.b))
+```
+
+
+Miscellenaous
+-------------
+
+
+```{r}
+
+dummy = runif(n=5)
+barplot(dummy, xlab="Categories", ylab="values")
+
+```
+
+
+
+
