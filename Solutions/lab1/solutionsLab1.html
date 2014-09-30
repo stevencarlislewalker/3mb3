@@ -182,6 +182,30 @@ which(x &lt; mean(x))</code></pre>
 p[x &lt; mean(x)]</code></pre>
 <pre><code>## [1]  1  3  6  9 10 13 15 16 18</code></pre>
 </div>
+<div id="exercise-9.8" class="section level3">
+<h3>Exercise 9.8</h3>
+<p>As an example, we will consider the vector,</p>
+<pre class="r"><code>set.seed(1)
+(x &lt;- rpois(10, 1))</code></pre>
+<pre><code>##  [1] 0 1 1 2 0 2 3 1 1 0</code></pre>
+<p>The simplest way to extract the odd elements is to subscript them with the <code>seq</code> command,</p>
+<pre class="r"><code>n &lt;- length(x)
+x[seq(1, n, by = 2)]</code></pre>
+<pre><code>## [1] 0 1 0 3 1</code></pre>
+<p>We could also remove the even extries,</p>
+<pre class="r"><code>x[-seq(2, n, by = 2)]</code></pre>
+<pre><code>## [1] 0 1 0 3 1</code></pre>
+<p>but this is a little boring. Another more different approach is to construct a vector of alternating <code>TRUE</code> and <code>FALSE</code> elements,</p>
+<pre class="r"><code>(TF &lt;- (rep(c(TRUE, FALSE), ceiling(n/2))[1:n]))</code></pre>
+<pre><code>##  [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+<p>and then subscripting with that vector,</p>
+<pre class="r"><code>x[TF]</code></pre>
+<pre><code>## [1] 0 1 0 3 1</code></pre>
+<p>Another more exotic way uses <a href="http://en.wikipedia.org/wiki/Modular_arithmetic">modular arithmetic</a></p>
+<pre class="r"><code>x[(1:n %% 2) == 1]</code></pre>
+<pre><code>## [1] 0 1 0 3 1</code></pre>
+<p>Can you think of any others?</p>
+</div>
 </div>
 
 

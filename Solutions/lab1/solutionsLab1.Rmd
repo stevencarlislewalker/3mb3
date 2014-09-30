@@ -131,3 +131,31 @@ p <- 1:length(x)
 p[x < mean(x)]
 ```
 
+### Exercise 9.8
+As an example, we will consider the vector,
+```{r}
+set.seed(1)
+(x <- rpois(10, 1))
+```
+The simplest way to extract the odd elements is to subscript them with the `seq` command,
+```{r}
+n <- length(x)
+x[seq(1, n, by = 2)]
+```
+We could also remove the even extries,
+```{r}
+x[-seq(2, n, by = 2)]
+```
+but this is a little boring.  Another more different approach is to construct a vector of alternating `TRUE` and `FALSE` elements,
+```{r}
+(TF <- (rep(c(TRUE, FALSE), ceiling(n/2))[1:n]))
+```
+and then subscripting with that vector,
+```{r}
+x[TF]
+```
+Another more exotic way uses [modular arithmetic](http://en.wikipedia.org/wiki/Modular_arithmetic)
+```{r}
+x[(1:n %% 2) == 1]
+```
+Can you think of any others?
