@@ -2,6 +2,10 @@
 \date{\today}
 \author{Steve Walker}}
 
+%% TODO: hint about range change in log graph
+%% mfcol(,)
+%% ?
+
 \begin{document}
 
 \maketitle
@@ -18,7 +22,6 @@ mentioning its origin.}
 
 Version: \Sexpr{Sys.time()}
   
-\addtocounter{section}{-1}
 
 \section{Solving linear models}
 
@@ -68,13 +71,16 @@ plot(x, type = "l",
 abline(h = 0, v = 0)
 @ %
 
+\noindent\textbf{Exercise\exnumber}: Choose different initial conditions, and
+use this code to explore the resulting approach to equilibrium.
+
 \section{Vector field plots}
 
 Another way to get more insight into the model that is not dependent
 on specific initial conditions is to construct a vector field plot,
 which represents the magnitude and direction of the time derivative at
 various points in the state space.  To construct a vector field plot
-we use the code{plotrix} package,
+we use the \code{plotrix} package,
 <<eval=FALSE>>=
 install.package("plotrix")
 library(plotrix)
@@ -116,9 +122,8 @@ models with one positive and one negative eigenvalue.
 \section{Numerical solutions to differential equations}
 
 \R\ can also be used to solve differential equations.  You are
-required to be able to use \R\ for this purpose, but not until we
-cover them in lectures.  We will be using the \code{deSolve} add-on
-package for \R, which can be obtained by,
+required to be able to use \R\ for this purpose.  We will be using the
+\code{deSolve} add-on package for \R, which can be obtained by,
 <<eval=FALSE>>=
 install.package("deSolve")
 library(deSolve)

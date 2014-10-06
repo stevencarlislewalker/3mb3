@@ -98,11 +98,13 @@
 
 
 \sloppy
-\title{Using \R\ to analyze continuous models (Lab 4)}
+\title{Using \R\ to analyze continuous models (lab 4)}
 \date{\today}
 \author{Steve Walker}}
 
-
+%% TODO: hint about range change in log graph
+%% mfcol(,)
+%% ?
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
@@ -118,9 +120,8 @@ Please share \& remix noncommercially,
 mentioning its origin.}
 \end{minipage}
 
-Version: 2014-09-03 17:29:56
+Version: 2014-10-06 12:07:38
   
-\addtocounter{section}{-1}
 
 \section{Solving linear models}
 
@@ -192,13 +193,16 @@ we can find a solution by,
 
 \end{knitrout}
 
+\noindent\textbf{Exercise\exnumber}: Choose different initial conditions, and
+use this code to explore the resulting approach to equilibrium.
+
 \section{Vector field plots}
 
 Another way to get more insight into the model that is not dependent
 on specific initial conditions is to construct a vector field plot,
 which represents the magnitude and direction of the time derivative at
 various points in the state space.  To construct a vector field plot
-we use the code{plotrix} package,
+we use the \code{plotrix} package,
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -250,9 +254,8 @@ models with one positive and one negative eigenvalue.
 \section{Numerical solutions to differential equations}
 
 \R\ can also be used to solve differential equations.  You are
-required to be able to use \R\ for this purpose, but not until we
-cover them in lectures.  We will be using the \code{deSolve} add-on
-package for \R, which can be obtained by,
+required to be able to use \R\ for this purpose.  We will be using the
+\code{deSolve} add-on package for \R, which can be obtained by,
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
