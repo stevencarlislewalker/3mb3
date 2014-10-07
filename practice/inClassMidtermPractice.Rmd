@@ -1,0 +1,198 @@
+# In class midterm practice
+
+## short answer
+
+1. Time is continuous in reality.  Nevertheless, discrete-time models provide good approximations to continuous time models.  Describe three scenarios where this approximation might indeed be adequate.
+
+2. A discrete-time bivariate linear dynamical system has eigenvalues $0.99$ and $0.98$.  From this information we may conclude that the fixed point at the origin is globally stable.  However, it might take many time steps to reach this point.  Why?
+
+3. A linear model has a matrix with all eigenvalues equal to one.  A nonlinear model has a Jaccobian with all eigenvalues equal to one.  What may we conclude about stability in both cases.  Why?
+
+4. Describe three real-life goals in terms of fixed-point-stability analysis.
+
+5. (challenge!) Consider two linear models, one with eigenvalues $-0.2, -0.8$ and another with eigenvalues $0.2 + i, 0.8 + i$.
+
+6. (challenge!) When can't we use an eigen decomposition to find the time-dependent solution for a discrete-time linear system?
+
+## the obvious one
+
+Derive the time-dependent solution for the univariate linear model in discrete time.
+
+## delay systems / eigen solutions (from the practice itself)
+
+$$
+  x(t + 2) − 3x(t + 1) + 2x(t) = 0
+$$
+
+$$
+  \begin{bmatrix}
+    x(t+2) \\ x(t+1)
+  \end{bmatrix} = 
+  \begin{bmatrix}
+    3 & -2 \\ 1 & 0 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    x(t+1) \\ x(t)
+  \end{bmatrix}
+$$
+The characteristic equation is,
+$$
+  \begin{split}
+    (3-d)(-d) + 2 & = 0 \\
+    d^2 - 3d + 2 & = 0 \\
+    (d-1)(d-2) & = 0 \\
+  \end{split}
+$$
+Therefore the eigenvalues are $d = 1, 2$.  
+
+Recall that the solution is,
+$$
+  \begin{bmatrix}
+    x(t+1) \\ x(t)
+  \end{bmatrix} = 
+  d_1^t
+  \begin{bmatrix}
+    v_1 \\ v_2
+  \end{bmatrix} + 
+  d_2^t
+  \begin{bmatrix}
+    u_1 \\ u_2
+  \end{bmatrix}
+$$
+But we only need to track one of these two variables (because they are the same, just at different times!).  So we could write this as,
+$$
+  x(t) = c_1 d_1^t + c_2 d_2^t
+$$
+Now to find the $c$'s.  Well, we do this with initial conditions.  So in this case we have,
+$$
+  \begin{split}
+    x(0) = 1 & = c_1 2^t + c_2 1^t = c_1 + c_2 \\
+    x(1) = 0.5 & = c_1 2^t + c_2 1^t = 2c_1 + c_2 \\
+  \end{split}
+$$
+and so,
+$$
+  \begin{split}
+    c_1 + c_2 & = 4c_1 + 2c_2 \\
+    -3c_1 & = c_2 \\
+    c_1 & = \frac{-c_2}{3} \\
+    \frac{c_2}{3} - c_2 & = -1 \\
+    c_2\left( \frac{1}{3} - 1 \right) & = -1 \\
+    c_2\left( \cfrac{-2}{3} \right) & = -1 \\
+    c_2 & = \frac{3}{2} \\
+    c_1 & = \frac{-1}{2} \\
+  \end{split}
+$$
+Thus,
+$$
+  x(t) = \frac{3 - 2^t}{2}
+$$
+
+## analysis of the sin model
+
+Why does the numerical solution work?  Well, we have a recurrsion function,
+$$
+  f(x) = x + \sin(x)
+$$
+Fixed points,
+$$
+  x = x + \sin(x)
+$$
+which implies that,
+$$
+  x = a\pi, \text{integer } a
+$$
+Which of these are stable?  Well,
+$$
+  f'(x) = 1 + \cos(x)
+$$
+and so,
+$$
+  f'(a\pi) = \begin{cases}
+    1 - 1 = 2 & a \text{ is odd (therefore stable)} \\
+    1 + 1 = 1 & a \text{ is even (therefore unstable)} \\
+  \end{cases}
+$$
+
+```{r}
+n <- 20
+x <- y <- numeric(n)
+x[1] <- 2*pi
+y[1] <- 2*3.14
+for(i in 2:20) x[i] <- x[i-1] + sin(x[i-1])
+for(i in 2:20) y[i] <- y[i-1] + sin(y[i-1])
+par(mar = c(4, 4, 1, 3))
+plot(1:20, y, type = "l", col = "red",
+     xlab = "time",
+     ylab = "state",
+     las = 1)
+lines(1:20, x, type = "l", col = "blue")
+axis(4, pi*(1:2), c("pi", "2pi"), las = 1)
+```
+
+```{r}
+x <- seq(0, 4*pi, length = 100)
+plot(x, x + sin(x), type = "l")
+abline(0, 1)
+```
+
+## trace-determinant conditions for stability
+
+The trace-determinant conditions for stability in 2-by-2 linear discrete time systems are,
+$$
+  \delta < 1
+$$
+and 
+$$
+  |\tau| < \delta + 1
+$$
+
+First some practice on entering matrices,
+```{r}
+A <- matrix(c(0.3, -0.2, 
+              1.1, 1.3), 2, 2, 
+            byrow = TRUE)
+(tau <- sum(diag(A)))
+(delta <- det(A))
+```
+
+So for this system $\tau = 1.6$ and $\delta = 0.61$, so the first condition is met but what about the second?  Well,
+$$
+  \begin{split}
+    |1.6| & < 1 + 0.61 \\
+    |1.6| & < 1.61 \\
+  \end{split}
+$$
+which is _just_ satisfied.  Let's check it,
+
+```{r}
+x <- c(1, 1)
+for(i in 1:1000) x <- A %*% x
+print(x)
+```
+Looks good!  Why?  But note that it takes a long time (10 or 100 time steps are not enough).  Why?
+
+## testing for evenness/oddness
+
+```{r}
+set.seed(1)
+(x <- rpois(10, 10) + 1)
+(xMod2 <- x %% 2)
+(xMod2.logic <- as.logical(xMod2))
+x[which(xMod2.logic)]  # odds
+x[which(!xMod2.logic)] # evens
+```
+
+## subscripting matrices
+
+```{r}
+A
+A[,1] # first column
+A[,-2] # also first column
+A[1,] # first row
+A[1, 1] # entry in first row and column
+diag(A) # diagonal of A
+A[2:1, 2] # second column with the elements in reverse order
+```
+
+
