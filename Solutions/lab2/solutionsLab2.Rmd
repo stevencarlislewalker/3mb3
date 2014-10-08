@@ -1,0 +1,168 @@
+---
+title: "Solutions to lab 2"
+output: html_document
+---
+
+### Stability of the Ricker model
+
+The Ricker model,
+$$ x(t+1) = x(t) e^{r(1-x(t)/k)} $$
+has a non-zero fixed point, $x{\star}$, given by,
+$$ 1 = e^{r(1-x{\star}/k)} $$
+$$ 0 = r(1-x{\star}/k) $$
+$$ 0 = 1-x{\star}/k $$
+$$ 1 = x{\star}/k $$
+$$ x{\star} = k $$
+To estabish stability we need to differentiate $x(t+1)$ with respect to $x(t)$, and find,
+$$ \frac{dx(t+1)}{dx(t)} = e^{r(1-x/k)} - x e^{r(1-x/k)}\frac{r}{k} $$
+$$ \frac{dx(t+1)}{dx(t)} = e^{r(1-x/k)}\left(1 - x \frac{r}{k}\right) $$
+which at the fixed point is simply
+$$ \frac{dx(t+1)}{dx(t)} = e^{r(1-k/k)}(1 - r) $$
+$$ \frac{dx(t+1)}{dx(t)} = (1 - r) $$
+
+The fixed point is stable when ever $|1 - r| < 1$, so the condition for stability is,
+$$ -1 < 1 - r < 1 $$
+$$ -2 < - r < 0 $$
+$$ 2 > r > 0 $$
+If $r = 0$, the system is neutrally stable because in that case the model reduces to the following,
+$$ x(t+1) = x(t) $$
+Otherwise $x{\star} = k$ is unstable.
+
+### Great lakes pollution project (MS p.45)
+
+$$
+      \begin{eqnarray}
+          a(n+1) & = & 0.87 a(n) + 0.38 b(n) \label{eq:gl1}\\
+          b(n+1) & = & 0.62 b(n)
+      \end{eqnarray}
+$$
+The explanation for Lake Erie ($b$) would be that because 38\% (0.38 in proportional terms) of the water flows out and is replaced by pure water, that means that a proportion 0.62 of the mass of pollution remains, and the volume remains unchanged.  Lake Ontario retains a proportion 0.87 of its own pollution (1-0.13); 13\% of its water is replaced by water from Lake Erie.  That water carries the pollution from Lake Erie, which represents the 38\% that was lost from Erie, so $0.38b$.
+
+$$
+          \begin{eqnarray}
+            a(n+2) = & 0.87 a(n+1) + 0.38 b(n+1) & \mbox{from} \\
+                    =& 0.87 a(n+1) + 0.38(0.62 b(n)) & \mbox{from} \\
+                   = & 0.87 a(n+1) + 0.62(0.38 b(n)) & \\
+                    = & 0.87 a(n+1) + 0.62(a(n+1)-0.87 a(n)) & \\
+                    = & (0.87+0.62) a(n+1) - 0.87 \cdot 0.62 a(n) & 
+          \end{eqnarray}
+$$
+Solving: substituting $a(n) = C \lambda^t$ and dividing through by $C \lambda^t$ gives $\lambda^2-(0.87+0.62) \lambda + 0.87 \cdot 0.62 = 0$. Factoring gives $(\lambda-0.87)(\lambda-0.62)$ or $\lambda = \{0.87,0.62\}$.
+                 
+Because $a(0)=b(0)=1$, $a(1) =0.87 a(0) + 0.38 b(0) = 1.25$.
+                 
+We have $C_1 \lambda_1^0+C_2 \lambda_2^0 = a(0)=1$ (or $C_1+C_2=1$) and $C_1\lambda_1+C_2\lambda_2 = 1.25$. So $(1-C_2) (0.87) + C_2 (0.62)=1.25$, or $-0.25 C_2 = 1.25-0.87$ or $C_2=-1.52$, $C_1 = 2.52$.
+                 
+Thus the solution is $a(n) = 2.52 (0.87)^n - 1.52 (0.62)^n$.
+                 
+
+```{r}
+tvec <- 0:50
+avec <- 2.52*0.87^tvec-1.52*0.62^tvec
+min(which(avec<0.9))-1 ## 7 years
+avec2 <- numeric(51)
+avec2[1] <- 1
+avec2[2] <- 1.25
+for (i in 3:51) {
+  avec2[i] <- avec2[i-1]*(0.87+0.62)-0.87*0.62*avec2[i-2]
+}
+max(avec-avec2)
+```
+Alternatively, use linear interpolation to get `6.x` years.
+
+This is just $b(n)=0.62^n b(0)$. We need $0.62^n b(0)= 0.9 b(0)$ or $n \ln(0.62) = \ln(0.9)$ or $n$ equal to,
+```{r}
+round(log(0.9)/log(0.62),2)
+``` 
+which is approximately,
+```{r}
+round(log(0.9)/log(0.62)*12,1)
+```
+months.
+
+### Alternative solution notes
+
+Its possible to solve parts 3 and 5 simultaneously.  In particular, the full multivariate system is,
+$$ 
+  \begin{bmatrix} a(n+1) \\ b(n+1) \end{bmatrix} = 
+  \begin{bmatrix} 0.87 & 0.38 \\ 0 & 0.62 \end{bmatrix}
+  \begin{bmatrix} a(n) \\ b(n) \end{bmatrix}
+$$
+Eigenvalues are on the diagonal, $0.87$ and $0.62$.  The eigenvector for $0.87$ is,
+$$
+  0.87\begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = 
+  \begin{bmatrix} 0.87 & 0.38 \\ 0 & 0.62 \end{bmatrix}
+  \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} 0.87v_1 \\ 0.87v_2 \end{bmatrix} = 
+  \begin{bmatrix} 0.87v_1 + 0.38v_2 \\ 0.62v_2 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} 0.87v_1 \\ 0.87v_2 \end{bmatrix} = 
+  \begin{bmatrix} 0.87v_1 + 0.38v_2 \\ 0.62v_2 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} 0 \\ 0.87v_2 \end{bmatrix} = 
+  \begin{bmatrix} 0.38v_2 \\ 0.62v_2 \end{bmatrix}
+$$
+Therefore, any,
+$$
+\begin{bmatrix} v \\ 0 \end{bmatrix}
+$$
+is an eigenvector of $0.87$.
+
+The eigenvector for $0.62$ is,
+$$
+  0.62\begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = 
+  \begin{bmatrix} 0.87 & 0.38 \\ 0 & 0.62 \end{bmatrix}
+  \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} 0.62v_1 \\ 0.62v_2 \end{bmatrix} = 
+  \begin{bmatrix} 0.87v_1 + 0.38v_2 \\ 0.62v_2 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} v_1(0.62-0.87) \\ 0 \end{bmatrix} = 
+  \begin{bmatrix} 0.38v_2 \\ 0 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} v_1(0.62-0.87) \\ 0 \end{bmatrix} = 
+  \begin{bmatrix} 0.38v_2 \\ 0 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} v_1 \\ 0 \end{bmatrix} = 
+  \begin{bmatrix} \frac{0.38}{0.62-0.87}v_2 \\ 0 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} v_1 \\ 0 \end{bmatrix} = 
+  \begin{bmatrix} \frac{0.38}{-0.25}v_2 \\ 0 \end{bmatrix}
+$$
+$$
+  \begin{bmatrix} v_1 \\ 0 \end{bmatrix} = 
+  \begin{bmatrix} -1.52v_2 \\ 0 \end{bmatrix}
+$$
+Letting $v_2 = 1$ therefore yields,
+$$
+\begin{bmatrix} -1.52 \\ 1 \end{bmatrix}
+$$
+as an eigenvector for $0.62$.
+
+Therefore the solution is of the form,
+$$ 
+  \begin{bmatrix} a(n) \\ b(n) \end{bmatrix} = 
+  \begin{bmatrix} v \\ 0 \end{bmatrix}0.87^n + 
+  \begin{bmatrix} -1.52 \\ 1 \end{bmatrix}0.62^n
+$$
+Plugging in initial conditions,
+$$ 
+  \begin{bmatrix} 1 \\ 1 \end{bmatrix} = 
+  \begin{bmatrix} v \\ 0 \end{bmatrix} + 
+  \begin{bmatrix} -1.52 \\ 1 \end{bmatrix}
+$$
+gives $v = 2.52$.  Therefore, the final solution is,
+$$ 
+  \begin{bmatrix} a(n) \\ b(n) \end{bmatrix} = 
+  \begin{bmatrix} 2.52 \\ 0 \end{bmatrix}0.87^n + 
+  \begin{bmatrix} -1.52 \\ 1 \end{bmatrix}0.62^n
+$$
