@@ -1,5 +1,9 @@
 # Course outline:  MATH 3MB3 -- 2014
 
+## Due date changes!
+
+See the new [schedule](https://github.com/stevencarlislewalker/3mb3/tree/master/schedule)
+
 ## Project proposals
 
 Compose a proposal for a final project using R markdown, and email it
