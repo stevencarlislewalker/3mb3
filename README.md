@@ -2,9 +2,9 @@
 
 ## Final exam data has been set
 
-Friday December 19
-16:00-18:00
-MDCL/1309
+* Friday December 19
+* 16:00-18:00
+* [MDCL/1309](http://www.mcmaster.ca/uts/maps/mdcl1.html)
 
 ## Due date changes!
 
