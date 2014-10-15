@@ -1,5 +1,11 @@
 # Course outline:  MATH 3MB3 -- 2014
 
+## Final exam data has been set
+
+Friday December 19
+16:00-18:00
+MDCL/1309
+
 ## Due date changes!
 
 See the new [schedule](https://github.com/stevencarlislewalker/3mb3/tree/master/schedule)
