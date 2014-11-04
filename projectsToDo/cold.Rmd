@@ -1,0 +1,24 @@
+## Epidemiology of the common cold 
+
+Based on work by Rebecca Clark.
+
+### Preliminary question
+
+The common cold can be caused by over 200 different viral strains. An individual can become infected by interacting with infected individuals.  Symptoms generally begin after the initial infection. An infected person could be contagious before the symptoms appear. The cold may spread quickly through a university, given high densities of interacting students.  How long would it take for a large majority of a population of university students to have experienced a cold?
+
+### Variables
+
+$S$, $E$, $I$, and $R$ the proportions of susceptible, exposed (i.e. infected but not infectious), infectious, and recovered students.
+
+### Initial model
+
+$$ \frac{dS}{dt} = \mu N - \mu S - \beta IS$$
+$$ \frac{dE}{dt} =  \beta IS - \mu E + a E$$
+$$ \frac{dI}{dt} =  a E - \gamma I - \mu I$$
+$$ \frac{dR}{dt} =  \gamma I - \mu R$$
+where $a$ is the rate at which exposed individuals become infectious, $\beta$ is the contact rate between infectious and susceptible individuals, $\mu$ is a birth/death rate, $N$ is the total number of individuals, and $\gamma$ is the recovery rate.
+
+### Internet references
+
+http://en.wikipedia.org/wiki/Common_cold
+http://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology

@@ -1,0 +1,27 @@
+## Competition between phone companies
+
+Based on work by Evan Andrade.
+
+### Preliminary question
+
+Bell and Rogers are two large phone companies in Canada, and therefore compete against each other for market share.  If people were to stay with the same firm and never change, then market share would tend to be relatively stable.  However, people do change companies in search of better rates, which makes market share dynamic.  Under what conditions can both companies stably coexist?
+
+### Variables
+
+Let $B$ and $R$ be the market share of Bell and Rogers.  Keep in mind that there are other companies, but we are not modelling them explicitly.
+
+### Initial model
+
+$$
+  \frac{dB}{dt} = b_B B\left(1 - a_{BB} B - a_{BR} R\right)
+$$
+$$
+  \frac{dR}{dt} = b_R R\left(1 - a_{RB} B - a_{RR} R\right)
+$$
+where the $b$'s are the rates of market share increase when both companies have low market share, and the $a$'s are coefficients that regulate growth.  Assume the $b$'s and $a$'s are all positive.
+
+### Internet references
+
+http://cwta.ca/facts-figures/
+http://en.wikipedia.org/wiki/Ecological_model_of_competition
+http://en.wikipedia.org/wiki/Competitive_Lotka%E2%80%93Volterra_equations

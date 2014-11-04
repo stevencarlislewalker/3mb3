@@ -1,0 +1,46 @@
+## Traffic flow
+
+Based on work by Miles White.
+
+### Preliminary question
+
+Many workers are faced with a choice of whether to drive to work or take the bus.  Traffic congestion and commute times could be reduced by an increase in the proportion of people who take the bus, as such an increase might result in a decrease in the density of vehicles on the road.  What are the conditions under which commute times would decrease in response to an increase in the proportion of commuters who take the bus?
+
+### Variables
+
+Let $x$ be the position along the path between home, $x = x_h = 0$, and work, $x = x_w$.  Let $\rho(x, t)$ be the density of cars at time $t$ and position $x$.
+
+### Initial model
+
+We use two empirical patterns as a basis for our model.  First, the density of vehicles tends to be higher near highway exits (i.e. highway on/off ramps) due to a phenomenon known as a congestion wave.  Here we model this wave as,
+$$
+  \rho(x, t) = \rho(x) = 1 - \cos(2\pi x)
+$$
+```{r, echo = FALSE, fig.width=6, fig.height=3}
+x <- seq(0, 5, length = 1000)
+rho <- 1 - cos(2*pi * x)
+par(mar = c(5, 4, 1, 1))
+plot(x, rho, type = "l",
+     xlab = "Distance along commute path",
+     ylab = "Density of vehicles",
+     las = 1)
+```
+```{r, eval=FALSE, echo = FALSE}
+a <- 2
+b <- 1.2
+dxdt <- a - b*rho
+plot(x, dxdt, type = "l")
+```
+We may interpret the points at which $\rho(x) = 0$ as the locations of exits, and that exits are evenly placed at every integer value of $x$.  One may also think of these evenly spaced points as traffic lights.
+
+Second, we assume that the velocity, $\frac{dx}{dt}$, of the focal vehicle depends on density according to the affine function,
+$$
+  \frac{dx}{dt} = a - b\rho(x)
+$$
+
+### References
+
+http://en.wikipedia.org/wiki/Traffic_flow
+http://www.norbertwiener.umd.edu/Education/m3cdocs/Presentation2.pdf
+https://amath.colorado.edu/sites/default/files/2013/09/1710796241/PRSA_Lighthill_1955.pdf
+https://www.youtube.com/watch?v=Suugn-p5C1M

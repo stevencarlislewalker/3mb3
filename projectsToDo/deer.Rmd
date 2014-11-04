@@ -1,0 +1,23 @@
+## Management of white-tailed deer
+
+Based on work by Connor Robbins.
+
+### Preliminary question
+
+White-tailed deer are native to North America with a natural range throughout Canada and the United States.  At one point in the early 1900s deer faced extinction, although today they are much more abundant.  Often they are considered pests due to their tendency to over-graze on plants, resulting in drastic changes to their environment, which they often share with humans.  One way to control these impacts is to permit a certain level of deer hunting. However, such hunting activity should be controlled in order to avoid over-exploitation, as was once the case.  What policies for regulating hunting licenses would lead to desireable and stable population sizes of deer?
+
+### Variables
+
+Let $D(t)$ and $P(t)$ be the numbers of deer and plants in year $t$ in a particular managed area.
+
+### Initial model
+
+These assumptions lead to the following set of equations for the dynamics of the predator-prey system,
+$$ P(t + 1) = P(t) + aP(t) - cP(t)D(t) $$
+$$ D(t + 1) = D(t) + ecP(t)D(t) - fD(t) - h $$
+where $a$ is the growth rate of plants in the absence of deer, $c$ is the per-deer-plant-encounter rate, $e$ is the efficiency of deer at converting captured plants into resources, $f$ is the per-deer mortality rate, and $h$ is the permitted hunting rate.
+
+### Internet references
+
+http://www.jstor.org/stable/2387573
+http://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equation
