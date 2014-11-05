@@ -12,10 +12,10 @@ $S$, $E$, $I$, and $R$ the proportions of susceptible, exposed (i.e. infected bu
 
 ### Initial model
 
-$$ \frac{dS}{dt} = \mu N - \mu S - \beta IS$$
-$$ \frac{dE}{dt} =  \beta IS - \mu E + a E$$
-$$ \frac{dI}{dt} =  a E - \gamma I - \mu I$$
-$$ \frac{dR}{dt} =  \gamma I - \mu R$$
+$$ \frac{dS}{dt} = \mu N - \mu S - \beta IS $$
+$$ \frac{dE}{dt} =  \beta IS - \mu E - a E $$
+$$ \frac{dI}{dt} =  a E - \gamma I - \mu I $$
+$$ \frac{dR}{dt} =  \gamma I - \mu R $$
 where $a$ is the rate at which exposed individuals become infectious, $\beta$ is the contact rate between infectious and susceptible individuals, $\mu$ is a birth/death rate, $N$ is the total number of individuals, and $\gamma$ is the recovery rate.
 
 ### Internet references
