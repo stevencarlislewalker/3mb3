@@ -38,7 +38,7 @@ $$
   \frac{dx}{dt} = a - b\rho(x)
 $$
 
-### References
+### Internet references
 
 http://en.wikipedia.org/wiki/Traffic_flow
 http://www.norbertwiener.umd.edu/Education/m3cdocs/Presentation2.pdf
