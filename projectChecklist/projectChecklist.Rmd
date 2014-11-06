@@ -1,0 +1,22 @@
+## Final project checklist
+
+0. Optional: Reinterpret the mathematical form of the initial model in terms of a system that you find more interesting. (suggested deadline: Nov 10)
+    - For example, you might be more interested in polar bears, not deer.
+1. Analyze the stability and fixed points of the initial model. (suggested deadline: Nov 10/11)
+2. Answer the preliminary question.  (suggested deadline: Nov 13-15)
+    - Note that there is no simple answer to this question, but instead will depend on how you have chosen to answer it. It is an open ended question.
+    - While answering the question you should propose reasonable default values for the parameters.
+3. Propose a question of your own.  (suggested deadline: Nov 20)
+    - Answering this question should require an extension of the initial model.
+    - Consider adding parameters that will represent new conditions, and then asking questions about how the dynamics will respond to changes in the parameters.
+4. Check to see if your proposed model is sensible by numerically and/or mathematically analyzing it.  (suggested deadline: Nov 20)
+    - If the model is not sensible (a common situation), return to step 3.
+5. Answer your own question.  (suggested deadline: Nov 27)
+6. Write up your findings in the following format (using Rmarkdown).  (deadline:  Dec 2)
+    - A short introduction (~ 1 paragraph) in which you pose your question as an extention to the basic model.
+    - A description of your model extension.
+    - A description of what analyses you will use to answer your questions.
+    - A description of your your results *that are useful for supporting your conclusions*.
+    - A short concluding paragraph summarizing your answers and what you would try next.
+    - List any references you may have used.
+    - A technical appendix, which you should refer to in your results section, giving code and mathematical derivations that are required to reproduce your results.
