@@ -1,0 +1,94 @@
+Solutions to Homework #3 (Matrices in R)
+========================================================
+
+```{r}
+X <- as.matrix(read.table("horn.txt"))
+```
+First we need the transpose of `X` and  to standardize to have column sums equal to one,
+```{r}
+(X <- t(X)/100)
+```
+
+Long-run composition using a for loop:
+```{r}
+n <- n0 <- rep(1,ncol(X))
+for(i in 1:100) n <- X%*%n
+longrun.for <- n
+```
+using the explicit eigen-based closed form solution,
+```{r}
+Xeig <- eigen(X)
+S <- Xeig$vectors
+d <- Xeig$values
+D <- diag(d, length(d), length(d))
+n <- rep(1,ncol(X))
+longrun.eigen <- Re(S%*%(D^100)%*%solve(S)%*%n0)
+```
+and using the `%^%` operator,
+```{r}
+library(expm)
+longrun.expm <- (X%^%100)%*%n0
+```
+
+Create normalize function,
+```{r}
+normalize <- function(x) x/sum(x)
+```
+so that we can compare dominant eigenvector, with the three other calculations of the long-run composition,
+```{r}
+cbind(normalize(longrun.for),
+      normalize(longrun.eigen),
+      normalize(longrun.expm), 
+      Re(normalize(S[,1])))
+```
+They are very similar!  Just noticing that they are similar is good, but it is better to programatically compare,
+
+
+Here's the plot,
+```{r}
+barplot(sort(normalize(longrun.expm)[,1]),
+        horiz = TRUE, las = 1,
+        xlab = "Percentage forest cover",
+        ylab = "Tree species")
+abline(v = 0.05, lty = 2)
+```
+
+The number of species that will be present at frequencies greater than 5% is,
+```{r}
+sum(normalize(longrun.expm) > 0.05)
+```
+
+The last 'bonus' question is a bit of a trick question: is the origin a stable fixed point? The students should recognize that this is a linear system, which has a stable fixed point at the origin whenever all of the eigenvalues have modulus less than one. So their first step should be:
+```{r}
+Mod(eigen(X)$values)
+```
+or maybe,
+```{r}
+Mod(eigen(X)$values) < 1
+```
+They may then conclude that the fixed point is not stable because one of the eigenvalues is exactly one.
+
+If they are *really* cleaver they may say that the system is neutrally stable along the dominant eigenvector. That is, the time-dependent solution of the model $\mathbf{n}(t+1) = \mathbf{Xn}(t)$ can be writen as a linear combination of eigenvectors, $\mathbf{s}_i, i = 1,...$,
+$$\mathbf{n}(t) = \sum_i d_i^t c_i \mathbf{s}_i$$
+where $d_i$ are eigenvalues and $c_i$ are determined from initial conditions. Therefore, if $d_1 = 1$ and $|d_i|<1$ for all other eigenvalues, the system will return to,
+$$\mathbf{n} \approx c_i \mathbf{s}_i$$
+which is a constant dependent on initial conditions. Therefore, perturbations to the system will only result in a return of the state variable $\mathbf{n}$ to this constant multiple of the dominant eigenvector (i.e. a return to a one dimensional space). In other words the system is neutrally stable along the dominant eigenvector.
+
+Cleaver students might also notice that $\mathbf{n}(t)$ is a fixed point if 
+$\mathbf{n}(t+1) = \mathbf{n}(t)$.
+So 
+$\mathbf{In} = \mathbf{Xn}$
+where $\mathbf{I}$ is the identity matrix, which implies that 
+$\mathbf{0} = (\mathbf{X-I})\mathbf{n}$.
+Then they may notice that $\mathbf{X-I}$ is not invertible in this case because,
+```{r}
+XminusI <- X - diag(1,nrow(X),ncol(X))
+try(solve(XminusI))
+```
+and then use the fundamental theorem of algebra to show that there is a space of dimension one,
+```{r}
+ncol(X)-qr(XminusI)$rank
+```
+that satisfies the definition of fixed points above.
+
+In principle they should know everything to be able to do this, but I doubt many if any will be able to fully answer this question. My guess is that a fairly good student will say the system is not stable, because the eigenvalue criterion is not strictly true (i.e. has one eigenvalue equal to exactly zero).
