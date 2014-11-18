@@ -1,0 +1,287 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{fullpage}
+\newcommand{\prob}{\mathrm{Prob}}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{Stochastic modelling}
+\author{\copyright\ Ben Bolker and Steve Walker \today}
+\date{}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+
+<<include=FALSE>>=
+opts_chunk$set(height=2.7,fig.width=3)
+@
+
+ \setkeys{Gin}{width=3in} 
+ 
+ \section*{Definitions}
+
+\begin{enumerate}
+\item{For two events $A$ and $B$,
+    the probability of $A$ \textbf{or} $B$
+    is $\prob(A \cup B) = \prob(A) + \prob(B) - \prob(A \cap B)$,
+    where the last bit term is 
+    the \emph{joint probability} of $A$ and $B$.
+}
+\item{For \emph{mutually exclusive} events
+    (joint prob. = 0, e.g., ``individual is male/female'');
+    probability of $A$ \emph{or} $B$
+    $\equiv \prob(A \cup B) = \prob(A) + \prob(B)$.}
+\item{The sum of probabilities of all possible
+    outcomes of an observation or
+    experiment = 1.0.
+    (E.g.: \emph{normalization constants}.)}
+\item{
+\emph{Conditional probability} of
+$A$ \emph{given} $B$, $\prob(A|B)$:
+$\prob(A|B) = \prob(A \cap B)/\prob(B)$.
+(Compare the \emph{unconditional}
+probability of $A$: $\prob(A)=\prob(A|B) + \prob(A|\mbox{not } B)$.)}
+\item{If $\prob(A|B)=\prob(A)$,
+$A$ is \emph{independent} of $B$.
+Independence $\iff$
+$\prob(A \cap B)   =  \prob(A) \prob(B)$
+(or $\log \prod_i \prob(A_i) = \sum_i \log \prob(A_i)$).
+}
+\end{enumerate}
+
+\section*{Probability distributions}
+
+Discrete: probability distribution, cumulative probability distribution.
+Continuous: cumulative distribution function, probability \emph{density} function
+($p(x) = $ limit of $\prob(x<X<x+\Delta x)/\Delta x$ as $\Delta x \to 0$).
+Describe by \textbf{moments}.
+\emph{Mean}: $\sum x_i/N = \sum \mbox{count}(x) x/N = \sum p(x) x$ (discrete),
+$\int p(x) x \, dx$. \emph{Variance}: $\sum p(x) (x - \bar x)^2$,
+$\int p(x) (x-\bar x)^2 \, dx$. \emph{Higher moments}: skew, kurtosis.
+Also: median, mode.
+
+
+\section*{Bestiary}
+
+Pretty good summaries on Wikipedia
+(\url{http://en.wikipedia.org/wiki/List_of_probability_distributions}).
+R help pages.
+Books: \cite{bolker_ecological_2008,evans_statistical_2010}, 
+Johnson, Kotz, Balakrishnan et al.
+
+Characteristics (discrete vs continuous;
+range (positive, bounded, \ldots); symmetric or skewed \ldots)
+
+% \begin{itemize}
+% \item Binomial (\emph{Bernoulli}: $N=1$)
+% \item Poisson: (limit of Binomial with $N\to\infty$, $Np$ constant)
+% \item Negative binomial: coin-flipping, or \emph{overdispersed}
+%   version of Poisson (Gamma-Poisson)
+% \item Normal (Gaussian): continuous, symmetric; central limit theorem.
+% \item Gamma: waiting time (\emph{exponential}: shape=1).
+% \item Lognormal: exponential-transformed Gaussian.
+% \end{itemize}
+
+\subsection*{$\Omega = \{0,1,...,N\}$}
+
+\begin{itemize}
+\item Binomial
+  \begin{itemize}
+  \item Number of successes in a given number of trials
+  \item parameters: $p$ -- probability of success; $n$ -- number of
+    trials.
+  \item mean: $Np$
+  \item variance: $Np(1-p)$
+  \end{itemize}
+\item Beta-binomial
+  \begin{itemize}
+  \item Number of successes in a given number of trails with variation
+    (overdispersion) in the probability of success
+  \item parameters: $p$ -- average probability per trial; $\theta$ --
+    overdispersion parameter (how much does the probability of success
+    vary?)
+  \item mean: $Np$
+  \item variance: $Np(1-p)(1+(N-1)/(\theta+1))$
+  \end{itemize}
+\end{itemize}
+
+\subsection*{$\Omega = \{0,1,...\}$}
+
+\begin{itemize}
+\item Geometric
+  \begin{itemize}
+  \item Number of trials until a single failure
+  \item parameters: $p$ -- probability of failure
+  \item mean: $1/p$
+  \item variance: $(1-p)/p^2$
+  \end{itemize}
+\item Poisson
+  \begin{itemize}
+  \item Counts of events if events are independent
+  \item parameters: $\lambda$ -- expected count
+  \item mean: $\lambda$
+  \item variance: $\lambda$
+  \end{itemize}
+\item Negative binomial
+  \begin{itemize}
+  \item Poisson distribution with variation (overdispersion) in
+    $\lambda$
+  \item parameters: $\mu$ -- expected number of counts; $k$ --
+    overdispersion parameter
+  \item mean: $\mu$
+  \item variance:  $\mu + \mu^2/k$
+  \end{itemize}
+\end{itemize}
+
+\subsection*{$\Omega = \Re$}
+
+\begin{itemize}
+\item Normal distribution
+  \begin{itemize}
+  \item Good for many many things!
+  \item parameters: $\mu$ -- mean; $\sigma$ -- standard deviation
+  \item mean: $\mu$
+  \item variance: $\sigma^2$
+  \end{itemize}
+\end{itemize}
+
+\subsection*{$\Omega = \Re^+$}
+
+\begin{itemize}
+\item Gamma
+  \begin{itemize}
+  \item Waiting times until a certain number of events
+  \item parameters: $s$ -- scale (average time between events); $a$ --
+    shape (number of events)
+  \item mean: $as$
+  \item variance: $as^2$
+  \end{itemize}
+\item Exponential
+  \begin{itemize}
+  \item Gamma with shape parameter one, $a = 1$
+  \end{itemize}
+\item Lognormal
+  \begin{itemize}
+  \item Distribution of $e^X$ where $X$ is distributed normally
+  \item parameters: $\mu$ -- mean of the logarithm; $\sigma$ --
+    standard deviation of the logarithm
+  \item mean: $\exp(\mu + \sigma^2/2)$
+  \item variance: $\exp(2\mu + \sigma^2)(\exp(\sigma^2)-1)$
+  \end{itemize}
+\end{itemize}
+
+\begin{center}
+\includegraphics[height=2in,width=2in]{../../figures/probdisttab_clip.pdf}
+\end{center}
+(Insanely thorough version: \cite{leemis_univariate_2008}.)
+
+\section*{Method of moments}
+
+Quick estimation of parameters.  Solve $\{\bar x = (\mbox{theor. mean}),
+s^2 = (\mbox{theor. variance})$: sometimes biased.
+
+\section*{Jensen's inequality}
+
+$E[f(x)] \neq f(E[x])$, unless $f$ is linear (notation: expectation of
+function $f(x)$ over PDF $p(x)$: $E_p[f(x)] \equiv \int p(x) f(x) \,
+dx$. Analytic integration (if possible); numeric integration; or
+\emph{delta method}.
+
+\section*{Delta method}
+
+To approximate the expected value and variance of a function using
+only the expected value of its argument, we make a Taylor-series
+approximation: $E_p[f(x)] \approx E_p[f(\bar x)] + E_p[f'(x)|_{x=\bar
+  x} (x-\bar x)] + 1/2 E_p[f''(x)|_{x=\bar x} (x-\bar
+x)^2]$. Therefore:
+\begin{itemize}
+\item $ E_p[f(x)] \approx f(E_p[x]) + 1/2 f''(E_p[x]) \mbox{Var}(x)$
+\item $\mbox{Var}(f(x)) \approx f'(E_p[x])^2 \mbox{Var}(x)$
+\end{itemize}
+
+\section*{Markov-chains}
+
+Markov models are multivariate linear models where the columns sum to
+1.  Dominant eigenvalue now equal to 1; the dominant eigenvector is
+the stable distribution. The reason these are stochastic models is
+that the elements of the state vector can be used to model the
+probability of being in a particular state. Therefore, the sum of the
+state vector is 1, because you must be in a particular state.
+
+In particular, $\bm x(n + 1) = \bm P^\top \bm x(n)$, where $\bm x$ is
+the state vector and $\bm P$ is called the transition matrix. The
+element in the $i$th row of the $j$th column gives the probability of
+moving from state $i$ to state $j$ at each time step. This model makes
+the following assumptions:
+
+\begin{enumerate}
+\item Markov property:  each move is independent of previous moves.
+\item Probabilities out of a state must sum to one (i.e. rows of $\bm
+  P$ sum to one, or columns of $\bm P^\top$ must sum to one)
+\end{enumerate}
+
+\subsection*{Steady-state solution}
+
+From linear theory, $\bm x(n) = (\bm P^\top)^n \bm x(0)$.
+
+\subsection*{Fixed points}
+
+There are two kinds of fixed points we will deal with.
+
+\noindent \textbf{Definition} The system is called regular if some
+power of $\bm P^\top$ has all positive entires. 
+
+For all regular systems, the dominant eigenvalue of $\bm P^\top$ is
+one.  Therefore, if $d \bm v = \bm P^\top \bm v$, where $d$ and $\bm
+v$ is an eigenpair of $\bm P^\top$, then if $\bm v$ is the dominant
+eigenvector, $d = 1$, and $\bm v = \bm P^\top \bm v$.  Therefore, $\bm
+x{\star} = \bm v$ is a fixed point.
+
+Here is the second kind of fixed point.
+
+\noindent \textbf{Definition} The system is called absorbing if $\bm
+P^\top$ can be rearranged into the form,
+\begin{equation*}
+  \label{eq:1}
+  \begin{pmatrix}
+    \bm A & \bm 0 \\
+    \bm B & \bm I 
+  \end{pmatrix}
+\end{equation*}
+where $\bm A$ and $\bm B$ are matrices, $\bm 0$ is a matrix of all
+zeros, and $\bm I$ is the identity matrix. \qq{Why is this system
+  called absorbing? Hint: recall the drunkard's walk!}
+
+In this case, as time-dependent solution is,
+\begin{equation*}
+\bm x(n) = 
+  \begin{pmatrix}
+    \bm A^n & \bm 0 \\
+    \bm B(\bm I - \bm A)^{-1} & \bm I 
+  \end{pmatrix} \bm x(0)
+\end{equation*}
+In the limit, we can further reduce this expression because $\bm A^n$
+goes to a matrix of zeros as $n$ increases without bound (\qq{why?}),
+\begin{equation*}
+\bm x{\star} = 
+  \begin{pmatrix}
+    \bm 0 & \bm 0 \\
+    \bm B(\bm I - \bm A)^{-1} & \bm I 
+  \end{pmatrix} \bm x(0)
+\end{equation*}
+which is the fixed point for an absorbing Markov chain.
+
+\small
+\bibliographystyle{abbrv}
+\bibliography{../../bibliographies/3mb3}
+\end{multicols}
+
+\end{document}
