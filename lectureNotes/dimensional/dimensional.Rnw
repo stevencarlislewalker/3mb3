@@ -1,0 +1,62 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{Dimensional analysis}
+\author{\copyright\ Steve Walker \today}
+\date{}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+\section*{Dimensional consistency}
+
+  Important dimensions: time [T], amount [N], temperature [$\Theta$],
+  length [L]. Rules for dimensional consistency:
+  \begin{enumerate}
+    \item Only quantities with the same dimensions can be added,
+      subtracted, compared or equated.
+    \item Quantities with different dimensions can be multiplied or
+      divided.
+  \end{enumerate}
+  
+\subsection*{Example: leaky bucket model}
+
+Let $N$ be the state variable with dimensions of [N]. Let $h$ be the
+size of a time step with dimensions of [T]. Let $T$ be the residence
+time with dimensions of [T]. Let $a$ be the supply rate with
+dimensions $\mathrm{[NT^{-1}]}$.
+$\underbrace{\frac{N(t+h)}{h}}_{\mathrm{[NT^{-1}]}}-\underbrace{\frac{N(t)}{h}}_{\mathrm{[NT^{-1}]}}
+= \underbrace{a}_{\mathrm{[NT^{-1}]}} -
+\underbrace{\frac{1}{T}}_{\mathrm{[T^{-1}]}}
+\underbrace{N(t)}_{\mathrm{[N]}}$. This equation is dimensionally
+consistent. \qq{Why?}
+
+\section*{Non-dimensionalization}
+
+Can help with interpretation. Three steps: (1) identify state and time
+variables, (2) divide these by quantities with the same units, and (3)
+substitute back into the original equation.
+
+\subsection*{Example: leaky bucket model}
+
+Let $n(t) = \frac{N(t)}{aT} = \frac{N(t)}{N\star}$ (ratio of state to
+the state at equilibrium) and $\tau = \frac{h}{T}$ (ratio of time step
+size to the residence time at equilibrium). Note that these are
+dimensionless quantities. \qq{Why?  Show it.} Substituting yields
+$\frac{n(t+1)-n(t)}{\tau} = 1 - n(t)$. Now there is only one parameter
+in the model, $\tau$, with a simple interpretation as the average
+number of time steps a molecule stays in the bucket. With large
+$\tau$, few time steps required to clear, small $\tau$, many time
+steps.
+
+\end{multicols}
+\end{document}
