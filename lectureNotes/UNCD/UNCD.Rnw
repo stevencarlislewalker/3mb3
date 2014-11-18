@@ -1,0 +1,187 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{Univariate non-linear continuous-time deterministic models}
+\author{\copyright\ Ben Bolker (extensively modified by Steve Walker): \today}
+\date{}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+
+<<include=FALSE>>=
+opts_chunk$set(fig.height=2.7,fig.width=3)
+@
+
+ \setkeys{Gin}{width=3in} 
+  
+  Basic model: $\frac{dx(t)}{dt} = f(x(t))$. For example, $f(N) =
+  rN(1-\frac{N}{K})$ is the logistic model in continuous time.
+    
+\section*{Fixed points and stability}
+
+In general, as usual, fixed points are found by setting $\frac{dx}{dt}
+= f(x) = 0$ and solving for $x$. A fixed point $x\star$ is stable if
+$f'(x\star) < 0$, because this ensures that the state will return to
+$x\star$ for sufficiently small perturbations from $x\star$.
+
+\subsection*{Graphical methods}
+<<echo=FALSE, tidy = FALSE>>=
+par(mar = c(4,4,1,1))
+par(cex = 0.8, las = 1)
+x <- seq(-1,1,length=1000)
+y <- poly(x,4)[,4]
+plot(x,y, type = 'l',
+     ylab='f(x)',xlab='x',
+     xlim=c(-1.3,1.3),
+     ylim=c(-0.04,0.04))
+abline(h=0,lwd=0.5)
+set1 <- abs(y) < 1e-4
+set2 <- (abs(y) < 1.8e-4) & (abs(x) < 0.5)
+points(x[set1], y[set1],
+       pch=c(16,1),cex=2)
+points(x[set2], y[set2],
+       pch=c(1,16),cex=2)
+al <- 0.15
+hl <- 0.1
+arrows(-al,0.01,al,0.01,length=hl)
+arrows(0.6+al,0.01,0.6-al,0.01,length=hl)
+arrows(-0.6+al,0.01,-0.6-al,0.01,length=hl)
+arrows(1.15-al,0.01,1.15+al,0.01,length=hl)
+arrows(-1.15-al,0.01,-1.15+al,0.01,length=hl)
+@ 
+\qq{Which points are stable?} \qq{Why?}
+
+\subsection*{Example: logistic model}
+
+There are two solutions to $f(N\star) = 0 =
+rN{\star}(1-\frac{N{\star}}{K})$, which are $N{\star} = 0, K$. For
+stability we evaluate $f'(N) = r(1-\frac{2N}{K})$ at the fixed
+points. $f'(0) = r$ and $f'(K) = -r$. Therefore, if $r > 0$, the fixed
+point at zero is unstable whereas that at $K$ is stable. \qq{How do
+  these stability properties compare with discrete time?}
+
+\subsection*{Example: constant harvest model}
+
+$f(N) = rN(1-\frac{N}{K}) - h$. Fixed points obey,
+$-\frac{r}{K}N{\star}^2 + rN{\star} - h = 0$. Using the quadratic
+formula $N{\star} = \frac{-r \pm \sqrt{r^2 -
+    r(\frac{-r}{K})(-h)}}{2(\frac{-r}{K})}$. A non-dimensional form is
+easier to understand. Let $\nu = \frac{h}{rK}$ be a dimensionless
+harvest rate and $n = \frac{N}{K}$ be a dimensionless state
+variable. This yields $f(n) = r(n(1-n)-\nu)$. Fixed points, $n{\star}
+= \frac{1}{2}(1 \pm \sqrt{1-4\nu})$. If $\nu > 1/4$ there are no FPs,
+with $\nu = 1/4$ there is one FP ($n{\star} = 1/2$), and with $\nu <
+1/4$ there are two. For stability: $f'(n) = r(1-2n)$, $f'(n{\star}) =
+\mp r\sqrt{1-4\nu}$. \qq{Why did the $\pm$ sign change to $\mp$?}
+\qq{Draw a picture to help understand this model.}
+
+\section*{Time-dependent solution}
+
+Two general approaches: (1) general solution using differential
+equation methods or (2) simulate special cases using numerical
+methods.
+
+\subsection*{General solutions}
+
+A more general model is $g(x,\frac{dx}{dt},\frac{d^2x}{dt^2},...) =
+f(t)$. In this class we will only be doing general solutions for
+first-order homogeneous (i.e. $f(x) = \frac{dx}{dt}$) and first-order
+non-homogeneous (i.e. $f(x,t) = \frac{dx}{dt}$).
+
+For homogeneous we go back to the logistic, which can be done with
+seperation of variables. $\frac{dN}{N(1-\frac{N}{K})} = rdt$. Using
+the partial fractions trick the left hand side is $\frac{dN}{N} +
+\frac{dN}{K-N}$. \qq{Check my work!} The indefinite integrals are
+$\int \frac{dN}{N} = \log(N) + C$, $\int \frac{dN}{N-K} = -\log(N-K) +
+C$, and $r\int dt = rt + C$. \qq{Finish the job.} For non-homogeneous
+check out the drugs in the body example (p. 252).
+
+\subsection*{Numerical solutions}
+
+The simplest approach is Euler's method: convert into a difference
+equation. There is a trade-off here: if you make the step-size too
+large the approximation will be poor, but if you make the step-size
+too small computations will take a long time (watch out for
+computation times longer than the age of the universe!). Although
+Euler's method is easy to understand, In general you are better off
+using smarter software (e.g. \texttt{deSolve} in \texttt{R}):
+
+\newpage
+
+<<tidy=FALSE, fig.height=4, fig.width=3>>=
+## install.package("deSolve")
+library(deSolve)
+gradfun <- function(t, N, params) {  
+    ## parameters *must* be in this 
+    ## order but names don't matter
+    with(c(as.list(N),
+           as.list(params)),
+         ## magic -- must return a 
+         ## list with gradient as 
+         ## the *first element*
+         list(c(N=r*N*(1-N/K)),NULL))
+}
+desol <- lsoda(y=c(N=0.1), 
+               times=seq(0,10,by=0.1),
+               func=gradfun,
+               parms=c(r=1,K=5))
+## handy for referring to columns
+desol <- as.data.frame(desol)
+par(mar = c(4, 4, 1, 1))
+with(desol, plot(time, N,
+                 las = 1,
+                 type = "l"))
+@  
+
+\section*{Example:  plant and animal growth}
+
+Start with a conservation of energy law (FIXME: citation),
+\begin{equation*}
+  B = B_c N_c + E_c \frac{dN_c}{dt}
+\end{equation*}
+$B$, rate of energy intake (e.g. via food); $B_c$, rate of intake
+required to maintain a single cell; $N_c$, number of cells; $E_c$,
+energy required to create a new cell. By (1) defining $m$ and $m_c$ as
+the masses of the entire organism and of a single cell, and (2) using
+the empirical relationship, $B = am^b$ (constants $b\approx 3/4$ and
+$a$), we have a differential equation for the mass of an organism
+\qq{(derive this),}
+\begin{equation*}
+  \frac{dm}{dt}  = \underbrace{\frac{a m_c m^b}{E_c}}_{\text{supply}} - 
+  \underbrace{\frac{B_c m}{E_c}}_{\text{demand}}
+\end{equation*}
+When the supply of energy exceeds the demand, the organism can grow
+\qq{sketch the supply and demand curves.}  There is a trivial fixed
+point at $m\star = 0$ and an interesting one at $m\star =
+\left(\frac{am_c}{B_c}\right)^{\frac{1}{1-b}}$.  Note equilibrium mass is larger
+for organisms with cells that are larger and have smaller energy
+requirements. Interestingly, the equilibrium mass is independent of
+the energy required to make a new cell, $E_c$ (although it does
+influence the rate of approach to equilibrium).
+
+Time dependent solution can be found by a change of variables $\mu = 1
+- \left(\frac{m}{m\star}\right)$, which leads to a simple exponential
+decay model (note that $\mu$ is dimensionless).  By the chain rule,
+\begin{equation*}
+  \frac{d\mu}{dt} = \left(\frac{dm}{d\mu}\right)^{-1} \frac{dm}{dt}
+\end{equation*}
+By finding the derivative $\frac{dm}{d\mu}$ and substituting in the
+new variable for $n$ into the differential equation above we have,
+\begin{equation*}
+  \frac{d\mu}{dt} = -a m\star^{b-1} (1 - b) \mu
+\end{equation*}
+This is a simple exponential decay model, which you can solve \qq{(do
+  it and back transform to get the time dependent solution for $m$).}
+
+\end{multicols}
+\end{document}

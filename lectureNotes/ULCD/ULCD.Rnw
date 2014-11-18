@@ -1,0 +1,77 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{sober}
+\usepackage{color}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\newcommand{\qq}[1]{\color{blue} #1 \color{black}}
+\title{Univariate linear (and affine) continuous-time deterministic models}
+\author{\copyright\ Steve Walker: \today}
+\date{}
+\begin{document}
+\maketitle
+
+\enlargethispage{20pt}
+\thispagestyle{empty}
+\begin{multicols}{2}
+
+  Basic model: $\frac{dx(t)}{dt} = rx(t)$, where $r$ is constant. Can be
+    thought of as the limit of the discrete-time linear model as the
+    time step gets smaller, $\frac{dx}{dt} = \lim_{h \to 0}
+    \frac{x(t+h)-x(t)}{h} = \lim_{h \to 0} \frac{R(h)x(t)}{h} =
+    \left[\lim_{h \to 0} \frac{R(h)}{h}\right]x(t) = rx(t)$. \qq{When
+      does it make sense to let the time-step go to zero?}
+    
+\section*{Fixed points and stability}
+
+Set $\frac{dx}{dt} = 0 = rx\star$. If $r \neq 0$, $x\star = 0$, else
+any $x\star$ is a fixed point. Note that this is just like the
+discrete case. However, the stability properties of $x\star = 0$
+differ from the discrete case. In particular, $x\star = 0$ is stable
+if $r < 0$. The logic is that when $x(t) < 0$, $x$ will go towards
+zero because $\frac{dx}{dt} > 0$; and when $x(t) > 0$, $x$ will also
+go towards zero because $\frac{dx}{dt} < 0$. \qq{How do these
+  stability properties differ from the discrete case? Are oscillations
+possible? Overshooting?}
+
+\section*{Time-dependent solution}
+
+<<include=FALSE>>=
+opts_chunk$set(fig.height=5,fig.width=3)
+@
+
+ \setkeys{Gin}{width=3in} 
+
+Solve by seperable variables. $\frac{dx}{dt} = rx$, $\frac{dx}{x} =
+rdt$, $\int_{x(0)}^{x(t)} \frac{dx}{x} = r\int_0^tdt$, $\log(x(t)) -
+\log(x(0)) = rt$, $x(t) = x(0)e^{rt}$.
+
+\vfill
+\columnbreak
+
+<<tidy=FALSE, echo=FALSE>>=
+par(mfrow = c(2,1), 
+    mar = c(4,4,3,1))
+par(cex = 0.8, las = 1)
+t <- seq(0,30,length=100)
+x0 <- 1
+r <- 0.1
+x <- x0*exp(r*t)
+plot(t,x,type = 'l',
+     main='unstable (r > 0)')
+x <- x0*exp(-r*t)
+plot(t,x,type = 'l',
+     main='stable (r < 0)')
+@ 
+
+\section*{Affine models}
+
+Leaky bucket model. $\frac{dx}{dt} = a - bx$. Fixed points $0 = a -
+bx\star$, $x\star = a/b$ assuming $b \neq 0$. Stability whenever $b >
+0$. \qq{Can you find time-dependent solution? Hint: seperation of
+  variables again.}
+
+\end{multicols}
+\end{document}
