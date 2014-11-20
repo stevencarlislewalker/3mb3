@@ -1,0 +1,462 @@
+---
+title: "Solutions lab 4"
+output: html_document
+---
+
+### Summary
+
+#### Fixed points
+
+##### Model 1
+$$
+  (x, y) = \left(\frac{f}{e}, 
+  \frac{ae - bf}{ce}\right)
+$$
+
+##### Model 2
+$$
+	(x, y) = \left(\frac{ag - cf}{ce + bg}, 
+	\frac{ae + bf}{ce + bg}\right)
+$$
+
+#### Jacobian
+
+The general Jaccobian is,
+$$
+  J = \begin{bmatrix}
+  	a-2bx - cy & -cx \\\\ ey & ex + f - 2gy \\\\
+	\end{bmatrix}
+$$
+
+##### model II
+
+$$
+  J = \begin{bmatrix}
+    -bx & -cx \\\\ ey &  - f - ex \\\\
+  \end{bmatrix} = \begin{bmatrix}
+  	-bx & -cx \\\\ ey & -gy \\\\
+	\end{bmatrix}
+$$
+
+##### model I
+
+
+$$
+\\begin{bmatrix} 
+a - 2bx - cy & - cx \\\\
+ey & - f \\\\
+\\end{bmatrix} =
+	\\begin{bmatrix} 
+	- bx & - cx \\\\
+	ey & - f \\\\
+	\\end{bmatrix} 
+$$
+
+#### Trace determinant
+
+Model 1
+
+$$
+  \delta = bfx + cexy
+$$
+
+$$
+  \tau = -bx - f
+$$
+
+Model 2
+
+$$
+  \delta = bx(f+ex) + cexy = (bg+ce)xy
+$$
+
+$$
+  \tau = - f - (b + e)x =  bx + gy
+$$
+
+
+### Models
+
+We are required to analyze two models very similar models:
+
+#### model I
+
+$$ \frac{dx}{dt} = ax - bx^2 - cxy $$
+$$ \frac{dy}{dt} = exy - fy $$
+
+#### model II
+
+$$ \frac{dx}{dt} = ax - bx^2 - cxy $$
+$$ \frac{dy}{dt} = exy + fy - gy^2 $$
+
+The similarity of these two models makes their analysis very similar.  It suffices to analyze model II and then substitute in $f < 0$ and $g = 0$ for the analogous result for model I.  Therefore, in every case we analyze model II first.
+
+### Explanations
+
+#### Verify that the prey follows a logistic model when the predator is rare
+
+We may manipulate the prey equation,
+$$ \frac{dx}{dt} = ax\left(1 - \frac{b}{a}x\right) - cxy $$
+and then reparameterize,
+$$ \frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right) - cxy $$
+where $K = \frac{a}{b}$ is the carrying capacity and $r = a$ is the prey growth rate when it is rare.
+
+#### Verify the equations for model II
+
+The predators now follow logistic growth, which by analogy with model
+I is achieved through the additional squared term for the predators.
+
+### Fixed points
+
+#### model II
+
+At a fixed point we have,
+$$ ax = bx^2 + cxy $$
+$$ exy + fy = gy^2 $$
+which simplify to,
+$$ a = bx + cy $$
+$$ ex + f = gy $$
+for positive fixed points.
+
+$$
+  x = \frac{a}{b} - \frac{c}{b}y = \frac{g}{e}y - \frac{f}{e}
+$$
+$$
+  \left(\frac{g}{e} + \frac{c}{b}\right)y = \frac{a}{b} + \frac{f}{e}
+$$
+$$
+  y = \frac{\frac{a}{b} + \frac{f}{e}}{\frac{g}{e} + \frac{c}{b}}
+$$
+$$
+  y = \frac{\frac{ae}{be} + \frac{bf}{be}}{\frac{bg}{be} + \frac{ce}{be}}
+$$
+$$
+  y = \frac{ae + bf}{bg + ce}
+$$
+$$
+  x = \frac{a}{b} - \frac{c}{b}y
+$$
+$$
+  x = \frac{a}{b} - \frac{c}{b}\frac{ae + bf}{bg + ce}
+$$
+$$
+  x = \frac{1}{b}\left(a - c\frac{ae + bf}{bg + ce}\right)
+$$
+
+$$
+	x = \frac{1}{b}\left(\frac{abg + ace - ace - bcf}{bg + ce}\right)
+$$
+
+$$
+	x = \left(\frac{ag - cf}{bg + ce}\right)
+$$
+
+Therefore a nonzero fixed point is,
+
+$$
+	(x, y) = \left(\frac{ag - cf}{ce + bg}, 
+	\frac{ae + bf}{ce + bg}\right)
+$$
+
+The condition for positivity is therefore,
+
+$$
+	ag > cf
+$$
+
+That is, a positive fixed point for the prey requires that the prey growth rate, $a$, and among-predator competition coefficient, $g$, are large relative to the attack rate, $c$, and the predator growth rate, $f$, which makes sense.
+
+#### model I
+
+For model I we simply set $g$ to zero and change $f$ to $-f$,
+$$
+  (x, y) = \left(\frac{f}{e}, 
+  \frac{ae - bf}{ce}\right)
+$$
+Therefore, the condition for positivity becomes,
+$$
+  ae > bf
+$$
+That is, a positive fixed point for the prey requires that the prey growth rate, $a$, and among-predator competition coefficient, $g$, are large relative to the attack rate, $c$, and the predator growth rate, $f$, which makes sense.
+
+### Stability
+
+#### model II
+
+The general Jaccobian is,
+$$
+  J = \begin{bmatrix}
+  	a-2bx - cy & -cx \\\\ ey & ex + f - 2gy \\\\
+	\end{bmatrix}
+$$
+$$
+  J = \begin{bmatrix}
+    a-2bx - a +bx & -cx \\\\ ey & ex + f - 2f - 2ex \\\\
+	\end{bmatrix}
+$$
+$$
+  J = \begin{bmatrix}
+    -bx & -cx \\\\ ey &  - f - ex \\\\
+  \end{bmatrix}
+$$
+
+The determinant is,
+$$
+  \delta = bx(f+ex) + cexy
+$$
+The trace is,
+$$
+  \tau = - f - (b + e)x
+$$
+$$
+  4bx(f+ex) + 4cexy > (f + (b + e)x)^2
+$$
+
+
+It helps to eliminate $y$ (or $x$, but we will do $y$) along the diagonal, using the intermediate steps obtained when finding the fixed points.
+$$
+  J = \begin{bmatrix}
+		a-2bx - a + bx & -cx \\\\ ey & gy - 2gy \\\\
+	\end{bmatrix}
+$$
+which leads to,
+$$
+  J = \begin{bmatrix}
+  	-bx & -cx \\\\ ey & -gy \\\\
+	\end{bmatrix}
+$$
+
+The determinant, $\delta$, condition for stability is,
+$$
+  \delta = (bg+ce)xy > 0
+$$
+which is always true because of positivity of the state variables and fixed points.  Now for the trace, $\tau$, condition we have,
+$$
+  \tau = bx + gy > 0
+$$
+which is also always met for the same reasons.  Therefore, again, a positive fixed point in this model is always stable.
+
+
+#### model I
+
+We are required to find a positive fixed point.  The second equation looks easier, so we set $\frac{dy}{dt} = 0$ to find,
+$$ exy = fy $$
+Assuming $y > 0$ means we can divide by $y$ to obtain,
+$$ ex = f $$
+which we rearrange,
+$$ x = \frac{f}{e} $$
+
+The first equation leads to,
+$$ ax = bx^2 + cxy $$
+Again because of positivity we divide by $x$,
+$$ a = bx + cy $$
+Substituting in the expression for $x$ gives,
+$$ a = \frac{bf}{e} + cy $$
+Solving,
+$$ y = \frac{a}{c} - \frac{bf}{ce} $$
+and rearranging leads to,
+$$ y = \frac{ae - bf}{ce} $$
+
+Therefore the fixed point is,
+$$
+  (x, y) = \left(\frac{f}{e}, \frac{ae - bf}{ce}\right)
+$$
+Positivity requires that,
+$$
+  ae > bf
+$$
+
+The Jaccobian is,
+
+$$
+\\begin{bmatrix} 
+a - 2bx - cy & - cx \\\\
+ey & - f \\\\
+\\end{bmatrix} 
+$$
+
+We can substitute in $cy = a - bx$ from an intermediate step in the fixed point calculations,
+
+$$
+	\\begin{bmatrix} 
+	- bx & - cx \\\\
+	ey & - f \\\\
+	\\end{bmatrix} 
+$$
+
+The trace is,
+$$
+  \tau = -bx - f
+$$
+Therefore, given that $b$, $f$, and $x$ are assumed positive, the trace condition for stability, $\tau < 0$, is always met.
+
+The determinant is,
+$$
+  \delta = bfx + cexy
+$$
+Again, given positivity of parameters and fixed points, the determinant condition for stability, $\delta > 0$, is always met.
+
+Therefore, because both the trace and determinant conditions are met for all positive fixed points, we conclude that all positive fixed points are stable.
+
+
+
+
+### Numerical analysis
+
+We need the `deSolve` and `plotrix` libraries,
+```{r}
+library("deSolve")
+library("plotrix")
+```
+
+Several functions have been writen to analyze the two models.  They work for both models such that when `modelI` is set to `TRUE`, the functions will behave appropriately for model I, and when it is `FALSE` they will work for model II.
+
+The gradients, $\frac{dx}{dt}$ and $\frac{dy}{dt}$ are,
+```{r}
+dxdt <- function(x, y, a, b, c)  a * x - b * x^2 - c * x * y
+dydt <- function(x, y, e, f, g) {
+  if(modelI) {
+    return(e * x * y - f * y) 
+  } else {
+    return(e * x * y + f * y - g * y^2)
+  }
+}
+```
+The gradient function for either model can then be computed as,
+```{r}
+gfun <- function(t, N, params) {
+  with(c(as.list(N), as.list(params)), {
+    list(c(x = dxdt(x, y, a, b, c),
+           y = dydt(x, y, e, f, g)))
+  })
+}
+```
+
+The challenge with picking fixed points is to have them both be positive.  We could use trial and error, guided by our condition for positivity above (e.g. $ae > bf$ for model I).  However, we build a function for generating random points that satisfy the condition,
+```{r}
+genPosFP <- function(.seed) {
+  # optional random seed
+  if(!missing(.seed)) set.seed(.seed) 
+  
+  # generate candidate parameter set with names
+  nms <- letters[1:7][-4]
+  parms <- setNames(runif(6), nms)
+  
+  if(modelI) {
+    # save parameters that determine positivity
+    ae <- parms[c("a", "e")]
+    bf <- parms[c("b", "f")]
+  
+    # swap the parameter sets if required
+    if(prod(ae) < prod(bf)) { 
+      parms[c("a", "e")] <- bf
+      parms[c("b", "f")] <- ae
+    }
+  } else {
+    # save parameters that determine positivity
+    ag <- parms[c("a", "g")]
+    cf <- parms[c("c", "f")]
+  
+    # swap the parameter sets if required
+    if(prod(ag) < prod(cf)) { 
+      parms[c("a", "g")] <- cf
+      parms[c("c", "f")] <- ag
+    }
+  }
+  
+  # return the parameters
+  return(setNames(parms, nms))
+}
+```
+And here is a function for computing the fixed point,
+```{r}
+FPs <- function(parms) {
+  with(as.list(parms), {
+    if(modelI) {
+      c(x = f/e,
+        y = (a*e - b*f)/(c*e))
+    } else {
+      c(x = (a*g - c*f)/(c*e + b*g),
+        y = (a*e + b*f)/(c*e + b*g))
+    }
+  })
+}
+```
+Testing that this function always returns positive fixed points,
+```{r}
+for(modelI in c(TRUE, FALSE)) {
+  print(all(replicate(10000, FPs(genPosFP())) > 0))
+}
+```
+Seems to be `TRUE`.
+
+So let's generate parameters for both models,
+```{r}
+modelI <- TRUE
+parmsI <- genPosFP(.seed = 1)
+all(FPs(parmsI) > 0)
+modelI <- FALSE
+parmsII <- genPosFP(.seed = 1)
+all(FPs(parmsII) > 0)
+```
+A deviation from the fixed point would be a good initial state,
+```{r}
+set.seed(1)
+modelI <- TRUE
+(initValueI <- abs(FPs(parmsI) + rnorm(2, sd = 0.1)))
+modelII <- FALSE
+(initValueII <- abs(FPs(parmsII) + rnorm(2, sd = 0.1)))
+```
+
+Now let's solve,
+```{r}
+modelI <- TRUE
+desolI <- lsoda(y = initValueI,
+                times = seq(0, 500, by = 0.1),
+                func = gfun,
+                parms = parmsI)
+desolI <- as.data.frame(desolI)
+modelI <- FALSE
+desolII <- lsoda(y = initValueII,
+                times = seq(0, 500, by = 0.1),
+                func = gfun,
+                parms = parmsII)
+desolII <- as.data.frame(desolII)
+```
+Note that picking the right number of time steps is by trial and error.  
+
+### Graph
+
+First we need to set up a function for plotting the vector field,
+```{r}
+plotFigure <- function(desol, parms) {
+  # plot trajectory
+  with(desol, plot(x, y, type = "l"))
+  
+  # fixed points
+  with(as.list(parms), 
+       abline(v = FPs(parms)[1], 
+              h = FPs(parms)[2],
+              lwd = 0.5))
+  
+  # vector field
+  xGrid <- with(desol, seq(min(x), max(x), length = 10))
+  yGrid <- with(desol, seq(min(y), max(y), length = 10))
+  state <- expand.grid(x = xGrid, y = yGrid)
+  xGrad <- dxdt(state[,1], state[,2], 
+                parms["a"], parms["b"], parms["c"])
+  yGrad <- dydt(state[,1], state[,2], 
+                parms["e"], parms["f"], parms["g"])
+  vectorField(xGrad, yGrad, state[, 1], state[, 2])
+}
+```
+
+Here are the graphs,
+```{r}
+modelI <- TRUE
+plotFigure(desolI, parmsI)
+modelI <- FALSE
+plotFigure(desolII, parmsII)
+```
+This examples are both stable, and so verifies the analysis.
+
