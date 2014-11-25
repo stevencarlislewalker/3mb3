@@ -33,6 +33,7 @@ clearly described. The results are illustrated with sensible plots. If
 the model used is reconstructed from a paper, then some
 sensible/interesting extension of the original model is included.  The report is clearly and succinctly written.
 </li>
+
 <li><strong>
 B</strong>: A thorough analysis of a simple model.  May include only analytical
 or only computational results, but these results must be solid. The
@@ -40,6 +41,7 @@ problem and the analysis are still clearly described. A reconstruction
 of a complex or several-part model from the literature without any
 extensions or new material would fall in this category.
 </li>
+
 <li><strong>
   C:</strong>
 A partial analysis of a simple model.  The basic information about
@@ -48,14 +50,41 @@ variants or more complex versions are attempted) or the analysis is
 limited -- for example, implementing a simple model in R and showing a
 single run of the model, without exploring the results (dependence on
 parameter values, variations of the model, etc.)
+</li>
+
 <p>
   The example exercises in the book would probably get a B or a C,
 depending on the presentation and level of detail.
 </p>
-</li>
+
 <li><strong>
   D/F:</strong> little evidence of effort. Did not come to David or I for help with formulating or solving the model (it's fine not to come for help if you
 don't need it, but I will look much more kindly on otherwise lacking
 projects if I know that you really tried!)
 </li>
 </ul>
+
+## Final project mark breakdown
+
+Overall presentation [20]%
+For example,
+- equations should be in LaTeX.
+- headings for organizing the discussion.
+- good communication, which means clearly and succinctly posing the questions in the introduction, answering them in the conclusion.
+- commented R code.
+
+Analytical analysis of the system: [30]%
+Full marks if analysis is correct and relatively exhaustive (look at
+all fixed points, study type of stability, etc).
+
+Numerical implementation: [30]%
+- Reasonable implementation in R (e.g. x<-1:10 not x[1]=1, x[2]=2, ...)
+- Commented code
+- Double check that the simulations do not contradict the analysis
+(typically with a combination of a plot and formal test like printing
+the actual difference as time gets large)
+- Look at various assumptions on parameter values and
+model structure.
+
+Overall project complexity: [20]%
+Differentiate between simple and more challenging model extensions. 
